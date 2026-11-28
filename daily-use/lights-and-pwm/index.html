@@ -1,0 +1,2766 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="User guide for Newmota IoT firmware — daily use, device setup, and Tasmota migration.">
+      
+      
+        <meta name="author" content="Newmota Project Team">
+      
+      
+      
+        <link rel="prev" href="../power-and-buttons/">
+      
+      
+        <link rel="next" href="../tuya-mcu/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/logo-house-tile-64.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Lights & PWM - Newmota Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lights-pwm" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+        <aside class="md-banner">
+          <div class="md-banner__inner md-grid md-typeset">
+            
+            <strong>Pre-alpha:</strong> Newmota is for development boards only; updates can wipe settings
+    and need a wired flash when they fail.
+    <a href="../../background/roadmap/">What the stages mean</a>
+          </div>
+          
+        </aside>
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Newmota Documentation" class="md-header__button md-logo" aria-label="Newmota Documentation" data-md-component="logo">
+      
+  <img src="../../assets/logo-house-tile.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Newmota Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lights & PWM
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../start/first-steps/" class="md-tabs__link">
+          
+  
+  
+  Start Here
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../web-interface/" class="md-tabs__link">
+          
+  
+  
+  Daily Use
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../background/tasmota-differences/" class="md-tabs__link">
+          
+  
+  
+  Background
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../contributors/build-from-source/" class="md-tabs__link">
+          
+  
+  
+  For Contributors
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Newmota Documentation" class="md-nav__button md-logo" aria-label="Newmota Documentation" data-md-component="logo">
+      
+  <img src="../../assets/logo-house-tile.svg" alt="logo">
+
+    </a>
+    Newmota Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start Here
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Start Here
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/first-steps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    First Steps With Your Device
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/install-and-update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install & Update Firmware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/from-tasmota/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Switching From Tasmota
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web Flasher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/supported-devices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Supported Devices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build Your Firmware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/esp32/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ESP32 Devices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/pico/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Raspberry Pi Pico
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/bouffalo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bouffalo Devices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/beken/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beken Devices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/amebad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AmebaD BW16 Devices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Daily Use
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Daily Use
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../web-interface/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web Interface
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../console-and-commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Console & Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../files-and-settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Files & Settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../device-hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setting Up Your Device Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../power-and-buttons/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relays, Buttons & LEDs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lights & PWM
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lights & PWM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#hardware-pwm-vs-light-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hardware PWM vs. Light Mode
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#raw-hardware-pwm-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Raw Hardware PWM Commands
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#light-types-channel-layouts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Light Types &amp; Channel Layouts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Light Types &amp; Channel Layouts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#endpoint-numbering-sparse-relays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Endpoint Numbering &amp; Sparse Relays
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#browser-light-cards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Browser Light Cards
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pwm-pins-per-chip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PWM Pins Per Chip
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-light-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Light Commands
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#color-presets-palettes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Color Presets &amp; Palettes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Color Presets &amp; Palettes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#color-presets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Color Presets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-palettes-palette" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom Palettes (Palette)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#animations-wakeup-scheme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Animations &amp; Wakeup (Scheme)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Animations &amp; Wakeup (Scheme)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sunrise-wakeup-wakeup-wakeupduration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sunrise Wakeup (Wakeup / WakeupDuration)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ws2812-addressable-led-strips-use_ws2812" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WS2812 Addressable LED Strips (USE_WS2812)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="WS2812 Addressable LED Strips (USE_WS2812)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#native-platform-transports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Native Platform Transports
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configured-strip-as-light-owner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configured Strip as Light Owner
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strip-configuration-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strip Configuration Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#channel-order-and-white-blend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Channel order and white blend
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#led-driver-chips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LED driver chips
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LED driver chips">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#currents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Currents
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sm2135-presets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SM2135 presets
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#berry-light-scripting-light-led_strip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Berry Light Scripting (light &amp; led_strip)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Berry Light Scripting (light &amp; led_strip)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#global-light-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Global light Object
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pure-integer-gamma-helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pure-Integer Gamma Helpers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standalone-berry-led_strip-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standalone Berry led_strip Class
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tuya-mcu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TuyaMCU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-and-time/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wi-Fi, Time & Status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sensors & Environmental
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bluetooth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bluetooth & BLE Sensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../energy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energy Metering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../displays-and-touch/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Displays & Touch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../audio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Audio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cameras/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cameras
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mqtt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MQTT & Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../matter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Matter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../berry-scripting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Berry Scripting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Background
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Background
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../background/tasmota-differences/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Coming from Tasmota
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../background/design-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design Principles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../background/roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap and Release Stages
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../background/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    For Contributors
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    For Contributors
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributors/build-from-source/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build From Source
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributors/user-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Personal Build Configurations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributors/setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributors/build-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build System Internals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributors/source-and-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Source & Config Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributors/editor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Editor Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../web-interface/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Daily Use
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="lights-pwm">Lights &amp; PWM<a class="headerlink" href="#lights-pwm" title="Permanent link">&para;</a></h1>
+<p>Newmota provides a portable hardware PWM foundation and a 1- to 5-channel PWM Light controller. The same commands, palettes, and Berry APIs run across all five microcontroller families (ESP32, Pico 2 W, BK7231, BL602, BW16).</p>
+<hr />
+<h2 id="hardware-pwm-vs-light-mode">Hardware PWM vs. Light Mode<a class="headerlink" href="#hardware-pwm-vs-light-mode" title="Permanent link">&para;</a></h2>
+<p>When you configure one or more pins as <code>PWM1</code>–<code>PWM16</code> (or inverted <code>PWM1_i</code>–<code>PWM16_i</code>), Newmota allocates physical hardware PWM channels through the platform's native timer peripheral:</p>
+<ul>
+<li><strong>Raw PWM Mode (<code>SetOption15 0</code>)</strong>: Pins act as independent raw hardware duty outputs controlled by <code>PWM1</code>–<code>PWM16</code>.</li>
+<li><strong>Light Mode (<code>SetOption15 1</code>, Default)</strong>: Configured PWM1–PWM5 channels are grouped into a logical 1- to 5-channel Light endpoint (dimming, color, white balance, fading, and animation schemes).</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Restart Required on Mode Switch</p>
+<p>Switching between raw PWM and Light (<code>SetOption15</code>), or altering channel split grouping (<code>SetOption68</code>, <code>SetOption37</code>), takes effect upon the next reboot (<code>Restart 1</code>). Accessing a Light-owned pin via raw <code>PWM&lt;n&gt;</code> while in Light mode returns an explicit <code>OwnershipConflict</code> error.</p>
+</div>
+<hr />
+<h2 id="raw-hardware-pwm-commands">Raw Hardware PWM Commands<a class="headerlink" href="#raw-hardware-pwm-commands" title="Permanent link">&para;</a></h2>
+<p>In raw PWM mode (<code>SetOption15 0</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PWM&lt;n&gt;</code></td>
+<td><code>PWM&lt;n&gt; [0..PWMRange]</code></td>
+<td>Sets or queries the raw duty cycle on PWM channel <code>&lt;n&gt;</code> (1–16).</td>
+</tr>
+<tr>
+<td><code>PWMRange</code></td>
+<td><code>PWMRange [1 \| 255..1023]</code></td>
+<td>Sets global PWM duty resolution. <code>1</code> resets to default <code>1023</code>. Values round up to 255, 511, or 1023.</td>
+</tr>
+<tr>
+<td><code>PWMFrequency</code></td>
+<td><code>PWMFrequency [1 \| 2..50000]</code></td>
+<td>Sets global PWM carrier frequency in Hz. <code>1</code> resets to default 977 Hz.</td>
+</tr>
+<tr>
+<td><code>PWMFrequency</code> (per-channel)</td>
+<td><code>PWMFrequency &lt;Hz&gt;,&lt;channel&gt;</code></td>
+<td>Sets per-channel carrier frequency override on supported native platforms. Query with <code>PWMFrequency ?,&lt;channel&gt;</code>.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Global frequency edits clear per-channel overrides.</li>
+<li>Edits that cannot be applied immediately to inactive outputs report <code>RestartRequired:true</code> and take effect on boot.</li>
+</ul>
+<hr />
+<h2 id="light-types-channel-layouts">Light Types &amp; Channel Layouts<a class="headerlink" href="#light-types-channel-layouts" title="Permanent link">&para;</a></h2>
+<p>When <code>SetOption15 1</code> is active, the first 1 to 5 configured PWM channels map to standard Tasmota Light subtypes:</p>
+<table>
+<thead>
+<tr>
+<th>Channels</th>
+<th>Type</th>
+<th>Description</th>
+<th>Primary Controls</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1 Channel</strong></td>
+<td>Dimmer</td>
+<td>Single white or monochrome dimmer</td>
+<td><code>Power</code>, <code>Dimmer</code></td>
+</tr>
+<tr>
+<td><strong>2 Channels</strong></td>
+<td>Cold &amp; Warm White (CCT)</td>
+<td>Tunable white balance</td>
+<td><code>Power</code>, <code>Dimmer</code>, <code>CT</code>, <code>White</code></td>
+</tr>
+<tr>
+<td><strong>3 Channels</strong></td>
+<td>RGB</td>
+<td>Full RGB color mixing</td>
+<td><code>Power</code>, <code>Dimmer</code>, <code>Color</code>, <code>HsbColor</code>, <code>Scheme</code></td>
+</tr>
+<tr>
+<td><strong>4 Channels</strong></td>
+<td>RGBW</td>
+<td>RGB with dedicated white channel</td>
+<td><code>Power</code>, <code>Dimmer</code>, <code>Color</code>, <code>White</code>, <code>HsbColor</code>, <code>Scheme</code></td>
+</tr>
+<tr>
+<td><strong>5 Channels</strong></td>
+<td>RGBCW</td>
+<td>RGB with dual cold/warm white channels</td>
+<td><code>Power</code>, <code>Dimmer</code>, <code>Color</code>, <code>White</code>, <code>CT</code>, <code>HsbColor</code>, <code>Scheme</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="endpoint-numbering-sparse-relays">Endpoint Numbering &amp; Sparse Relays<a class="headerlink" href="#endpoint-numbering-sparse-relays" title="Permanent link">&para;</a></h3>
+<p>Light power endpoints follow the highest configured physical relay index, preserving relay numbers:
+- If a device has relays at <code>Power1</code> and <code>Power2</code>, the Light endpoint becomes <code>Power3</code>.
+- <code>Channel&lt;n&gt;</code> commands index from the first Light power endpoint.
+- With <code>SetOption68 1</code>, each individual Light channel receives its own separate power endpoint.
+- With <code>SetOption37 128</code> on RGBW or RGBCW layouts, RGB and white channels are split into separate power and dimmer endpoints (<code>Power&lt;n&gt;</code> and <code>Dimmer</code> for RGB, <code>Power&lt;n+1&gt;</code> and <code>Dimmer2</code> / <code>White</code> for White).</p>
+<hr />
+<h2 id="browser-light-cards">Browser Light Cards<a class="headerlink" href="#browser-light-cards" title="Permanent link">&para;</a></h2>
+<p>The web UI's Home page shows one card per Light endpoint above the relay cards (see <a href="../web-interface/">Web Interface</a>). Controls follow the light's kind — dimmer, dimmer + CT slider, or colour wheel + dimmer (+ white or CT slider on RGBW/RGBCW) — and use the same semantics as <code>Dimmer</code>, <code>Color</code>, and <code>CT</code>: a nonzero brightness or colour change switches the light on, and brightness 0 switches it off while keeping the stored dimmer. <code>GET</code>/<code>POST /api/light</code> expose the same state.</p>
+<h2 id="pwm-pins-per-chip">PWM Pins Per Chip<a class="headerlink" href="#pwm-pins-per-chip" title="Permanent link">&para;</a></h2>
+<p>PWM channels are not interchangeable on every chip. On Bouffalo BL616, GPIO <em>n</em> drives channel <em>n</em> % 4 and all four channels share one carrier; BL602 maps GPIO <em>n</em> to channel <em>n</em> % 5. Two PWM pins on the same channel cannot run together. BL618DG PWM is unavailable. Ready-made RGB templates for the Ai-Thinker kits are listed under <a href="../device-hardware/#led-pwm-function-values">Setting Up Your Device Hardware</a>.</p>
+<hr />
+<h2 id="core-light-commands">Core Light Commands<a class="headerlink" href="#core-light-commands" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Dimmer</code></td>
+<td><code>Dimmer [0..100 \| + \| -]</code></td>
+<td>Sets master brightness percentage. <code>+</code> / <code>-</code> steps by 10%. Turning <code>Power off</code> preserves dimmer level.</td>
+</tr>
+<tr>
+<td><code>Channel&lt;n&gt;</code></td>
+<td><code>Channel&lt;n&gt; [0..100 \| + \| -]</code></td>
+<td>Sets brightness percentage of channel <code>&lt;n&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>Color</code> / <code>Color1</code></td>
+<td><code>Color &lt;hex \| R,G,B[,W,C] \| 1..12 \| 200..203 \| + \| -&gt;</code></td>
+<td>Sets Light color via full-length hex string (e.g. <code>#FF0080</code>), comma-separated decimal components (0–255), fixed presets, or palette cycling.</td>
+</tr>
+<tr>
+<td><code>Color2</code></td>
+<td><code>Color2 &lt;hex \| R,G,B[,W,C]&gt;</code></td>
+<td>Sets color while preserving the current dimmer brightness.</td>
+</tr>
+<tr>
+<td><code>White</code></td>
+<td><code>White [0..100]</code></td>
+<td>Controls grouped white brightness on 2-, 4-, and 5-channel lights without disturbing RGB.</td>
+</tr>
+<tr>
+<td><code>CT</code> / <code>ColorTemperature</code></td>
+<td><code>CT [153..500]</code></td>
+<td>Sets color temperature in Mireds (153 = coldest ~6500K, 500 = warmest ~2000K).</td>
+</tr>
+<tr>
+<td><code>HsbColor</code></td>
+<td><code>HsbColor &lt;Hue&gt;,&lt;Sat&gt;,&lt;Bri&gt;</code></td>
+<td>Sets grouped RGB color using Hue (0–360°), Saturation (0–100%), and Brightness (0–100%).</td>
+</tr>
+<tr>
+<td><code>Fade</code></td>
+<td><code>Fade [0\|1\|2\|on\|off\|toggle]</code></td>
+<td>Enables smooth fading transitions between color and brightness changes.</td>
+</tr>
+<tr>
+<td><code>Speed</code></td>
+<td><code>Speed [1..40]</code></td>
+<td>Sets fade transition and animation rate (1 = fastest, 40 = slowest).</td>
+</tr>
+<tr>
+<td><code>LedTable</code></td>
+<td><code>LedTable [0\|1\|2\|on\|off\|toggle]</code></td>
+<td>Enables gamma 2.8 perceptual correction curve for smooth low-end dimming.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="color-presets-palettes">Color Presets &amp; Palettes<a class="headerlink" href="#color-presets-palettes" title="Permanent link">&para;</a></h2>
+<h3 id="color-presets">Color Presets<a class="headerlink" href="#color-presets" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>RGB Presets (<code>Color 1</code> to <code>Color 12</code>)</strong>: Instant access to standard colors: Red (<code>1</code>), Green (<code>2</code>), Blue (<code>3</code>), Yellow (<code>4</code>), Cyan (<code>5</code>), Magenta (<code>6</code>), White (<code>7</code>), etc.</li>
+<li><strong>White Presets (<code>Color 200</code> to <code>Color 203</code>)</strong>: Cold white (<code>200</code>), Warm white (<code>201</code>), Neutral white (<code>202</code>), and Night mode (<code>203</code> — 50% on CW/RGBCW, 13% on RGBW).</li>
+</ul>
+<h3 id="custom-palettes-palette">Custom Palettes (<code>Palette</code>)<a class="headerlink" href="#custom-palettes-palette" title="Permanent link">&para;</a></h3>
+<p>Define up to 8 custom colors that can be cycled with <code>Color +</code> and <code>Color -</code>, or animated with Schemes:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>&gt; Palette FF0000 00FF00 0000FF FFA500
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>{"Palette":["FF0000","00FF00","0000FF","FFA500"]}
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>&gt; Color +
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>{"Color":"FF0000"}
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>&gt; Color +
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>{"Color":"00FF00"}
+</span></code></pre></div>
+<p>Clear the custom palette and return to default fixed colors by sending <code>Palette 0</code>.</p>
+<hr />
+<h2 id="animations-wakeup-scheme">Animations &amp; Wakeup (<code>Scheme</code>)<a class="headerlink" href="#animations-wakeup-scheme" title="Permanent link">&para;</a></h2>
+<p>Newmota includes a cooperative light effects engine that runs smoothly without blocking the main event loop:</p>
+<table>
+<thead>
+<tr>
+<th>Scheme</th>
+<th>Name</th>
+<th>Supported Hardware</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Scheme 0</code></td>
+<td>Steady</td>
+<td>All Lights</td>
+<td>Static color / white output (no animation).</td>
+</tr>
+<tr>
+<td><code>Scheme 1</code></td>
+<td>Wakeup</td>
+<td>All Lights</td>
+<td>Simulates sunrise over a configured duration. Starts from dark and ramps brightness to target level.</td>
+</tr>
+<tr>
+<td><code>Scheme 2</code></td>
+<td>Color Cycle</td>
+<td>RGB, RGBW, RGBCW, WS2812</td>
+<td>Cycles through the full 360° color wheel. Optional starting position: <code>Scheme 2,&lt;0..255&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>Scheme 3</code></td>
+<td>Palette Cycle</td>
+<td>RGB, RGBW, RGBCW, WS2812</td>
+<td>Cycles through custom colors configured with <code>Palette</code>. Optional starting index: <code>Scheme 3,&lt;1..count&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>Scheme 4</code></td>
+<td>Random Cycle</td>
+<td>RGB, RGBW, RGBCW, WS2812</td>
+<td>Steps through pseudo-random colors at the configured <code>Speed</code>.</td>
+</tr>
+<tr>
+<td><code>Scheme 5</code></td>
+<td>Clock</td>
+<td>WS2812 Strips</td>
+<td>Shows an animated clock on the strip. Uses <code>Color3</code>–<code>Color6</code> for seconds, minutes, hours, and markers; <code>SetOption16</code> sets direction. Stays dark until time is NTP-synchronized.</td>
+</tr>
+<tr>
+<td><code>Scheme 6</code></td>
+<td>Incandescent</td>
+<td>WS2812 Strips</td>
+<td>Warm incandescent glow simulation.</td>
+</tr>
+<tr>
+<td><code>Scheme 7</code></td>
+<td>RGB</td>
+<td>WS2812 Strips</td>
+<td>Color pattern stepping across pixels.</td>
+</tr>
+<tr>
+<td><code>Scheme 8</code></td>
+<td>Christmas</td>
+<td>WS2812 Strips</td>
+<td>Holiday red and green alternating pattern.</td>
+</tr>
+<tr>
+<td><code>Scheme 9</code></td>
+<td>Hanukkah</td>
+<td>WS2812 Strips</td>
+<td>Blue and white alternating pattern.</td>
+</tr>
+<tr>
+<td><code>Scheme 10</code></td>
+<td>Kwanzaa</td>
+<td>WS2812 Strips</td>
+<td>Red, black, and green alternating pattern.</td>
+</tr>
+<tr>
+<td><code>Scheme 11</code></td>
+<td>Rainbow</td>
+<td>WS2812 Strips</td>
+<td>Flowing rainbow gradient across the strip length.</td>
+</tr>
+<tr>
+<td><code>Scheme 12</code></td>
+<td>Fire</td>
+<td>WS2812 Strips</td>
+<td>Flickering fire effect with simulated embers.</td>
+</tr>
+<tr>
+<td><code>Scheme 13</code></td>
+<td>Stairs</td>
+<td>WS2812 Strips</td>
+<td>Stepped light sequence across pixels.</td>
+</tr>
+<tr>
+<td><code>Scheme 14</code></td>
+<td>Clear / Manual</td>
+<td>WS2812 Strips</td>
+<td>Clears strip on entry; retains manual pixel edits (<code>Led&lt;n&gt;</code>) through power on/off.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sunrise-wakeup-wakeup-wakeupduration">Sunrise Wakeup (<code>Wakeup</code> / <code>WakeupDuration</code>)<a class="headerlink" href="#sunrise-wakeup-wakeup-wakeupduration" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>Wakeup &lt;1..100&gt;</code>: Starts the wakeup animation with a target final brightness percentage.</li>
+<li><code>WakeupDuration &lt;1..3000&gt;</code>: Configures duration in seconds (default: 60 seconds).</li>
+<li><code>Wakeup ?</code>: Queries whether wakeup is currently <code>Running</code> or <code>Idle</code>.</li>
+</ul>
+<hr />
+<h2 id="ws2812-addressable-led-strips-use_ws2812">WS2812 Addressable LED Strips (<code>USE_WS2812</code>)<a class="headerlink" href="#ws2812-addressable-led-strips-use_ws2812" title="Permanent link">&para;</a></h2>
+<p>When compiled with <code>USE_WS2812: true</code>, Newmota adds hardware-driven support for WS2812 and WS2812B RGB/RGBW addressable strips (1 to 512 pixels):</p>
+<h3 id="native-platform-transports">Native Platform Transports<a class="headerlink" href="#native-platform-transports" title="Permanent link">&para;</a></h3>
+<p>Strips are driven using non-blocking DMA or peripheral waveforms rather than CPU-blocking bit-banging:
+- <strong>ESP-IDF</strong>: Dedicated RMT peripheral on chips with RMT (e.g. ESP32, S3, C3); continuous DMA SPI2 on chips without RMT (e.g. ESP32-C2). Any valid output pin.
+- <strong>Pico SDK</strong>: Hardware PIO state machine and DMA channel on GPIOs 0–31.
+- <strong>Bouffalo BL602</strong>: Continuous SPI0 master with DMA channel 0 on unswapped MOSI pins (GPIO 0, 4, 8, 12, 16, or 20).
+- <strong>AmebaD</strong>: Native SSI / GDMA controller on SPI0 MOSI (PA16/PB18) or SPI1 MOSI (PA12/PB4).
+- <strong>Beken</strong>: Deferred pending verified continuous waveform timings.</p>
+<h3 id="configured-strip-as-light-owner">Configured Strip as Light Owner<a class="headerlink" href="#configured-strip-as-light-owner" title="Permanent link">&para;</a></h3>
+<p>Assigning the <code>WS2812</code> GPIO function in your Template or GPIO configuration turns that strip into the primary Light device:
+- Precedes PWM Light: any configured PWM pins remain available for raw <code>PWM&lt;n&gt;</code> control.
+- Shares standard Light commands (<code>Power</code>, <code>Dimmer</code>, <code>Color</code>, <code>HsbColor</code>, <code>Fade</code>, <code>Speed</code>, palettes, and schemes).
+- <code>SetOption37 128</code> splits RGB and White endpoints on RGBW strips.</p>
+<h3 id="strip-configuration-commands">Strip Configuration Commands<a class="headerlink" href="#strip-configuration-commands" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Pixels</code></td>
+<td><code>Pixels &lt;1..512&gt;[,reverse,height,alternate]</code></td>
+<td>Sets the number of pixels on the strip (1–512). Changing pixel count clears manual edits.</td>
+</tr>
+<tr>
+<td><code>PixelType</code></td>
+<td><code>PixelType [0..22]</code></td>
+<td>Sets wire color order: <code>0</code> or <code>1</code> = GRB (default), <code>2</code> = RGB, <code>3</code> = RBG, <code>4</code> = BRG, <code>5</code> = BGR, <code>6</code> = GBR. Add <code>8</code> for RGBW; add <code>16</code> for white-first (e.g. WGRB).</td>
+</tr>
+<tr>
+<td><code>Led&lt;n&gt;</code></td>
+<td><code>Led&lt;n&gt; &lt;color&gt; [&lt;color&gt;...]</code></td>
+<td>Sets individual pixel colors using 1-based indexing (<code>Led1 FF0000 00FF00</code>).</td>
+</tr>
+<tr>
+<td><code>Rotation</code></td>
+<td><code>Rotation [0..pixels]</code></td>
+<td>Rotates the pattern offset along the strip.</td>
+</tr>
+<tr>
+<td><code>Width</code></td>
+<td><code>Width [1..pixels]</code></td>
+<td>Sets the width of animated pattern bands.</td>
+</tr>
+<tr>
+<td><code>StepPixels</code></td>
+<td><code>StepPixels [1..pixels]</code></td>
+<td>Sets the animation step size.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="channel-order-and-white-blend">Channel order and white blend<a class="headerlink" href="#channel-order-and-white-blend" title="Permanent link">&para;</a></h2>
+<p><code>SetOption37</code> values 0–119 select Tasmota channel permutations on PWM and LED-driver Lights; restart to apply them. An order that would leave an output dark falls back to the default. <code>RGBWWTable</code> sets one to five channel scaling values (0–255), and <code>SetOption105</code> controls white blending. These apply after gamma to PWM Lights, not independent channels or WS2812 strips; strips use <code>PixelType</code> for wire order.</p>
+<h2 id="led-driver-chips">LED driver chips<a class="headerlink" href="#led-driver-chips" title="Permanent link">&para;</a></h2>
+<p>Tuya RGBCW bulbs often drive their LEDs through a two-wire chip instead of PWM. Each chip
+has its own build feature, as in Tasmota, and selects the shared <code>USE_LED_DRIVER</code> bus. All
+of them default off. Enable one in a personal environment, for example:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bulb-cb2s</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nt">inherit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cb2s-2m</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nt">features</span><span class="p">:</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nt">USE_BP5758D</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Chip</th>
+<th>GPIO functions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>USE_BP5758D</code></td>
+<td>BP5758D</td>
+<td><code>BP5758D CLK</code>, <code>BP5758D DAT</code></td>
+</tr>
+<tr>
+<td><code>USE_BP1658CJ</code></td>
+<td>BP1658CJ</td>
+<td><code>BP1658CJ CLK</code>, <code>BP1658CJ DAT1</code>–<code>DAT16</code></td>
+</tr>
+<tr>
+<td><code>USE_SM2335</code></td>
+<td>SM2335; OpenBeken drives SM2235 and SM2185N the same way (untested here)</td>
+<td><code>SM2335 CLK</code>, <code>SM2335 DAT1</code>–<code>DAT16</code></td>
+</tr>
+<tr>
+<td><code>USE_SM2135</code></td>
+<td>SM2135</td>
+<td><code>SM2135 CLK</code>, <code>SM2135 DAT1</code>–<code>DAT10</code></td>
+</tr>
+</tbody>
+</table>
+<p>A personal build can also carry the bulb's template, so the device starts configured. For the
+Moes MWB-RCW RGBCW bulb (BP5758D on a CBLC5 module, DAT on P24, CLK on P26):</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">moes-bulb</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nt">inherit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">generic-bk7231n-qfn32-tuya</span><span class="w">   </span><span class="c1"># leaves every BK7231N pin to the template</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nt">features</span><span class="p">:</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">USE_BP5758D</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="s">"NAME"</span><span class="p p-Indicator">:</span><span class="s">"Moes</span><span class="nv"> </span><span class="s">MWB-RCW</span><span class="nv"> </span><span class="s">BP5758D"</span><span class="p p-Indicator">,</span><span class="s">"ARCH"</span><span class="p p-Indicator">:</span><span class="s">"bk7231n"</span><span class="p p-Indicator">,</span><span class="s">"GPIO"</span><span class="p p-Indicator">:[</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">9056</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">9024</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nv">0</span><span class="p p-Indicator">],</span><span class="s">"FLAG"</span><span class="p p-Indicator">:</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="s">"BASE"</span><span class="p p-Indicator">:</span><span class="nv">0</span><span class="p p-Indicator">}</span>
+</span></code></pre></div>
+<p>The LSC Smart Connect GU10 bulb works the same way with <code>USE_SM2335</code> and the template
+<code>{"NAME":"LSC GU10 SM2235","ARCH":"bk7231n","GPIO":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9122,0,9088,0,0],"FLAG":0,"BASE":0}</code>;
+it sends warm white before cold white, so run <code>SetOption37 1</code> once after flashing. Both
+pinouts come from OpenBeken's device catalog and are untested with Newmota.</p>
+<p>Tasmota templates that assign these functions work unchanged. The chip owns the Light as
+five channels (red, green, blue, cold and warm white). Commands, power, MQTT, the web page and
+Berry work as for a PWM Light, including <code>SetOption37</code> channel order, <code>RGBWWTable</code> and
+<code>SetOption105</code>. Configured PWM pins stay raw outputs. A chip together with a WS2812 strip
+disables the Light and logs why, and so does more than one chip.</p>
+<p>The bus is open drain on every family: a high level releases the pad to its internal
+pull-up. Bits are clocked with 2 µs half periods (SM2135: 4 µs) on the application task; a frame takes
+under 1 ms and is sent only when its bytes change. The chips acknowledge every byte, but
+the ACK is not checked, as in Tasmota and OpenBeken. When all channels are off, the chip
+goes to sleep or standby, and the next non-zero frame wakes it.</p>
+<h3 id="currents">Currents<a class="headerlink" href="#currents" title="Permanent link">&para;</a></h3>
+<p><code>LightCurrent &lt;rgb&gt;,&lt;white&gt;</code> sets the maximum current of the RGB and the white outputs; one
+value sets both. It is a Newmota command; Tasmota has no equivalent. The setting is saved and
+applies without restart. Without a setting, or with one outside the chip's range (saved
+for another chip), the chip uses Tasmota's value.</p>
+<table>
+<thead>
+<tr>
+<th>Chip</th>
+<th>Unit</th>
+<th>Range</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BP5758D</td>
+<td>mA</td>
+<td>1–93</td>
+<td>14, 14</td>
+</tr>
+<tr>
+<td>BP1658CJ</td>
+<td>code c: RGB c × 10 mA, white c × 5 mA</td>
+<td>0–15</td>
+<td><code>DAT&lt;n&gt;</code>: n−1 for both</td>
+</tr>
+<tr>
+<td>SM2335</td>
+<td>code c: RGB (c+1) × 10 mA, white (c+1) × 5 mA</td>
+<td>0–15</td>
+<td><code>DAT&lt;n&gt;</code>: n−1 for both</td>
+</tr>
+<tr>
+<td>SM2135</td>
+<td>code c: (c+2) × 5 mA</td>
+<td>RGB 0–7, white 0–10</td>
+<td>the <code>DAT&lt;n&gt;</code> preset</td>
+</tr>
+</tbody>
+</table>
+<p>As in Tasmota, the <code>DAT</code> index of BP1658CJ and SM2335 selects their current. On BP5758D an output
+takes the RGB or the white current by the channel it carries after <code>SetOption37</code>, as OpenBeken
+does. BP1658CJ and SM2335 have one current for OUT1–OUT3 and one for OUT4–OUT5.</p>
+<h3 id="sm2135-presets">SM2135 presets<a class="headerlink" href="#sm2135-presets" title="Permanent link">&para;</a></h3>
+<p>As in Tasmota, the <code>SM2135 DAT</code> instance selects how the bulb is wired and driven. <code>LightCurrent</code>
+replaces only the preset's currents. The current byte puts RGB in the high nibble, as Tasmota
+does. OpenBeken puts white there; if a bulb's RGB and white currents look swapped, report it.</p>
+<table>
+<thead>
+<tr>
+<th>DAT</th>
+<th>Colour order</th>
+<th>RGB / white</th>
+<th>Sends</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>GRB</td>
+<td>20 / 15 mA</td>
+<td>RGB or white, never both (Action LSC)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>BGR</td>
+<td>20 / 15 mA</td>
+<td>RGB or white, never both (Polux)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>GRB</td>
+<td>20 / 30 mA</td>
+<td>both</td>
+</tr>
+<tr>
+<td>4</td>
+<td>BGR</td>
+<td>20 / 30 mA</td>
+<td>both</td>
+</tr>
+<tr>
+<td>5</td>
+<td>GRB</td>
+<td>45 / 60 mA</td>
+<td>both (LE LampUX)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>BGR</td>
+<td>45 / 60 mA</td>
+<td>both</td>
+</tr>
+<tr>
+<td>7</td>
+<td>BRG</td>
+<td>15 / 40 mA</td>
+<td>all five values in one frame (Fitop)</td>
+</tr>
+<tr>
+<td>8</td>
+<td>BGR</td>
+<td>20 / 15 mA</td>
+<td>both; reserved in Tasmota, which runs it this way</td>
+</tr>
+<tr>
+<td>9</td>
+<td>GRB</td>
+<td>20 / 15 mA</td>
+<td>RGB or white, and zeroes the other (Qualitel)</td>
+</tr>
+<tr>
+<td>10</td>
+<td>BGR</td>
+<td>20 / 15 mA</td>
+<td>RGB or white, and zeroes the other</td>
+</tr>
+</tbody>
+</table>
+<p>The white levels follow a 1 ms pause after the white mode frame, as in Tasmota.</p>
+<h2 id="berry-light-scripting-light-led_strip">Berry Light Scripting (<code>light</code> &amp; <code>led_strip</code>)<a class="headerlink" href="#berry-light-scripting-light-led_strip" title="Permanent link">&para;</a></h2>
+<p>In Berry scripts and <code>/autoexec.be</code>, Newmota exposes both the global <code>light</code> object for owner-backed control and the <code>led_strip</code> class for direct pixel manipulation:</p>
+<h3 id="global-light-object">Global <code>light</code> Object<a class="headerlink" href="#global-light-object" title="Permanent link">&para;</a></h3>
+<div class="language-berry highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Read endpoint 0 (first Light device)</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kd">var</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">light</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"Power:"</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">[</span><span class="s2">"power"</span><span class="p">],</span><span class="w"> </span><span class="s2">"Applied:"</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">[</span><span class="s2">"applied_power"</span><span class="p">])</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"Brightness:"</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">[</span><span class="s2">"bri"</span><span class="p">])</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"Channels:"</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">[</span><span class="s2">"channels"</span><span class="p">])</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Set brightness and color temperature</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="n">light</span><span class="p">.</span><span class="nf">set</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s2">"power"</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="s2">"bri"</span><span class="o">:</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span><span class="w"> </span><span class="s2">"ct"</span><span class="o">:</span><span class="w"> </span><span class="mi">300</span><span class="p">})</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1"># Set RGB color</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="n">light</span><span class="p">.</span><span class="nf">set</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s2">"rgb"</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="mi">255</span><span class="p">,</span><span class="w"> </span><span class="mi">128</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="s2">"bri"</span><span class="o">:</span><span class="w"> </span><span class="mi">100</span><span class="p">})</span>
+</span></code></pre></div>
+<p>Supported fields in <code>light.get()</code> and <code>light.set()</code>:
+- <code>power</code>: Logical requested power (<code>true</code> / <code>false</code>).
+- <code>applied_power</code>: Actual electrical power status applied to hardware.
+- <code>bri</code>: Master brightness (0–100).
+- <code>hue</code>: Hue angle (0–360).
+- <code>sat</code>: Saturation percentage (0–100).
+- <code>ct</code>: Color temperature in Mireds (153–500).
+- <code>rgb</code>: Array of <code>[R, G, B]</code> byte values (0–255).
+- <code>channels</code>: Array of raw channel byte values (0–255).</p>
+<h3 id="pure-integer-gamma-helpers">Pure-Integer Gamma Helpers<a class="headerlink" href="#pure-integer-gamma-helpers" title="Permanent link">&para;</a></h3>
+<p>Newmota provides Tasmota-compatible integer gamma curve conversions under the <code>light</code> object:
+- <code>light.gamma10(val)</code>: Converts 0–1023 input to gamma-corrected 0–1023.
+- <code>light.reverse_gamma10(val)</code>: Reverses 10-bit gamma correction.
+- <code>light.gamma8(val)</code>: Converts 0–255 input to gamma-corrected 0–255.</p>
+<h3 id="standalone-berry-led_strip-class">Standalone Berry <code>led_strip</code> Class<a class="headerlink" href="#standalone-berry-led_strip-class" title="Permanent link">&para;</a></h3>
+<p>Berry can control an addressable strip on any unassigned output pin, or borrow the configured Light strip:</p>
+<div class="language-berry highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Construct standalone strip on GPIO 4 with 16 pixels</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">strip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">led_strip</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="s2">"GRB"</span><span class="p">)</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Set solid background color (0xRRGGBB or 0xWWRRGGBB for RGBW)</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">strip</span><span class="p">.</span><span class="nf">fill</span><span class="p">(</span><span class="mh">0x001020</span><span class="p">)</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># Set pixel 0 to bright red (zero-based index)</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="n">strip</span><span class="p">.</span><span class="nf">set</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFF0000</span><span class="p">)</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1"># Transmit frame via DMA</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="n">strip</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="c1"># Check transmission status</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">strip</span><span class="p">.</span><span class="nf">busy</span><span class="p">()</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">  </span><span class="nb">print</span><span class="p">(</span><span class="s2">"Frame transmitted"</span><span class="p">)</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="k">end</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="c1"># Release strip resources</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="n">strip</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+</span></code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.path", "navigation.top", "navigation.tracking", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy", "content.code.select", "content.code.annotate", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

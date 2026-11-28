@@ -1,0 +1,2325 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="User guide for Newmota IoT firmware — daily use, device setup, and Tasmota migration.">
+      
+      
+        <meta name="author" content="Newmota Project Team">
+      
+      
+      
+        <link rel="prev" href="../../daily-use/berry-scripting/">
+      
+      
+        <link rel="next" href="../design-principles/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/logo-house-tile-64.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Coming from Tasmota - Newmota Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#coming-from-tasmota" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+        <aside class="md-banner">
+          <div class="md-banner__inner md-grid md-typeset">
+            
+            <strong>Pre-alpha:</strong> Newmota is for development boards only; updates can wipe settings
+    and need a wired flash when they fail.
+    <a href="../roadmap/">What the stages mean</a>
+          </div>
+          
+        </aside>
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Newmota Documentation" class="md-header__button md-logo" aria-label="Newmota Documentation" data-md-component="logo">
+      
+  <img src="../../assets/logo-house-tile.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Newmota Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Coming from Tasmota
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../start/first-steps/" class="md-tabs__link">
+          
+  
+  
+  Start Here
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../daily-use/web-interface/" class="md-tabs__link">
+          
+  
+  
+  Daily Use
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Background
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../contributors/build-from-source/" class="md-tabs__link">
+          
+  
+  
+  For Contributors
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Newmota Documentation" class="md-nav__button md-logo" aria-label="Newmota Documentation" data-md-component="logo">
+      
+  <img src="../../assets/logo-house-tile.svg" alt="logo">
+
+    </a>
+    Newmota Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start Here
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Start Here
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/first-steps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    First Steps With Your Device
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/install-and-update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install & Update Firmware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/from-tasmota/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Switching From Tasmota
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web Flasher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/supported-devices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Supported Devices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build Your Firmware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/esp32/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ESP32 Devices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/pico/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Raspberry Pi Pico
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/bouffalo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bouffalo Devices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/beken/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beken Devices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/amebad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AmebaD BW16 Devices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Daily Use
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Daily Use
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../daily-use/web-interface/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web Interface
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../daily-use/console-and-commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Console & Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../daily-use/files-and-settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Files & Settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../daily-use/device-hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setting Up Your Device Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../daily-use/power-and-buttons/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relays, Buttons & LEDs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../daily-use/lights-and-pwm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lights & PWM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../daily-use/tuya-mcu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TuyaMCU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../daily-use/network-and-time/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wi-Fi, Time & Status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../daily-use/sensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sensors & Environmental
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../daily-use/bluetooth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bluetooth & BLE Sensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../daily-use/energy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energy Metering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../daily-use/displays-and-touch/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Displays & Touch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../daily-use/audio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Audio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../daily-use/cameras/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cameras
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../daily-use/mqtt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MQTT & Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../daily-use/matter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Matter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../daily-use/berry-scripting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Berry Scripting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Background
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Background
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Coming from Tasmota
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Coming from Tasmota
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-carries-over-unchanged" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What carries over unchanged
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deliberate-differences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deliberate differences
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-gaps-that-are-not-deliberate-differences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current gaps that are not deliberate differences
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#berry-filesystem-listings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Berry filesystem listings
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design Principles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap and Release Stages
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    For Contributors
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    For Contributors
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributors/build-from-source/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build From Source
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributors/user-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Personal Build Configurations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributors/setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributors/build-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build System Internals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributors/source-and-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Source & Config Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributors/editor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Editor Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="./" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Background
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="coming-from-tasmota">Coming from Tasmota<a class="headerlink" href="#coming-from-tasmota" title="Permanent link">&para;</a></h1>
+<p>Newmota treats Tasmota as its behavioral reference: every feature starts from Tasmota's documentation and current source, and deviations are deliberate and recorded. If you arrive from Tasmota, most of your muscle memory transfers — this page lists what doesn't. To move a device, see <a href="../../start/from-tasmota/">Switching From Tasmota</a>.</p>
+<p>Newmota is an independent project. It is not part of, affiliated with or endorsed by Tasmota or OpenBeken, so please report problems with Newmota to the Newmota project and not to them. Newmota owes a lot to both: Tasmota for the commands, templates and Berry integration it follows, and OpenBeken for its work on Beken and other Tuya-module chips.</p>
+<div class="admonition tip">
+<p class="admonition-title">Building your own image</p>
+<p>Tasmota offers ready-made binaries for most devices and tailored builds through <code>user_config_override.h</code>. Newmota has no downloads yet, so you build your own image, and <code>make config</code> makes that easy: pick your chip and features from a menu, and Newmota checks the combination before it compiles. See <a href="../../start/build/">Build Your Firmware</a>.</p>
+</div>
+<h2 id="what-carries-over-unchanged">What carries over unchanged<a class="headerlink" href="#what-carries-over-unchanged" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Console habits</strong>: case-insensitive commands, JSON replies, the <code>_</code> quiet prefix, <code>?</code> queries.</li>
+<li><strong><code>Status 1/2/3/4/5/7/8/10/11</code></strong> telemetry sections and their JSON shapes.</li>
+<li><strong><code>SetOption0…177</code></strong> numbering and boolean/parameter semantics.</li>
+<li><strong>Wi-Fi slots</strong> (<code>SSId1</code>/<code>Password1</code>, <code>SSId2</code>/<code>Password2</code>), <code>Timezone</code>/<code>TimeStd</code>/<code>TimeDst</code>/<code>NtpServer</code>, <code>SerialLog</code>/<code>WebLog</code> numbering.</li>
+<li><strong>Module / Template / GPIO workflow</strong>, template JSON shape, and the frozen 16-bit GPIO function IDs. Per-pin <code>GPIO</code> overrides still apply only to <code>User</code> slots.</li>
+<li><strong>Power stack</strong>: <code>Power</code>, <code>PowerOnState 0…5</code>, <code>PulseTime</code>, <code>BlinkTime</code>/<code>BlinkCount</code>, <code>Interlock</code>.</li>
+<li><strong>Light stack</strong>: <code>Dimmer</code>, <code>Channel</code>, <code>Color</code>, <code>CT</code>, <code>White</code>, <code>HsbColor</code>, <code>Fade</code>, <code>Speed</code>, <code>LedTable</code>, <code>Scheme 0..14</code>, <code>Wakeup</code>.</li>
+<li><strong>Sensors</strong>: <code>StatusSNS</code>, MQTT <code>tele/&lt;topic&gt;/SENSOR</code>, <code>SetOption8</code> (°C/°F), <code>SetOption24</code>/<code>SetOption139</code> (pressure units), <code>TempRes</code>/<code>HumRes</code>/<code>PressRes</code>, <code>TempOffset</code>/<code>HumOffset</code>.</li>
+<li><strong>MQTT topic convention</strong>: <code>cmnd/&lt;topic&gt;/#</code>, <code>stat/&lt;topic&gt;/RESULT</code>, <code>stat/&lt;topic&gt;/POWER</code>, <code>tele/&lt;topic&gt;/STATE</code>, <code>tele/&lt;topic&gt;/SENSOR</code>.</li>
+<li><strong><code>Reset 1…6</code></strong> meanings (including keep-Wi-Fi variants 4–6) and <code>Restart 1</code> / <code>Restart 99</code>.</li>
+<li><strong>Berry</strong>: the <code>Br</code> command, <code>/autoexec.be</code> startup script, and <code>SetOption153</code> to disable it. Berry runs in <em>every</em> normal build — including small 2 MiB Compact devices.</li>
+<li><strong><code>WebPassword</code></strong> exists and behaves the Tasmota way.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A feature that is not implemented yet belongs under <a href="#current-gaps-that-are-not-deliberate-differences">current gaps</a>, not in the deliberate-differences table.</p>
+</div>
+<hr />
+<h2 id="deliberate-differences">Deliberate differences<a class="headerlink" href="#deliberate-differences" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Tasmota baseline</th>
+<th>Newmota decision</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Platform scope</strong></td>
+<td>Also covers ESP8266 and further targets</td>
+<td>Requires at least 2 MiB flash; targets ESP32, Beken 72xx, Bouffalo BL602/BL616/BL618DG, AmebaD/RTL8720D, RP2040 (Pico W) and RP2350 (Pico 2 W)</td>
+<td>Current project scope</td>
+</tr>
+<tr>
+<td><strong>Feature availability</strong></td>
+<td>Often keeps commands for a broad set of optional drivers</td>
+<td>Exposes only the commands and data owned by the selected firmware; absent drivers get no compatibility-only command shells</td>
+<td>By design</td>
+</tr>
+<tr>
+<td><strong>I2S audio</strong></td>
+<td>Audio commands and codec selection depend on the compiled target</td>
+<td>Optional <code>USE_I2S</code> provides native ESP-IDF, Pico PIO/DMA and AmebaD transports, bounded Berry sessions, and <code>I2SPlay</code>, <code>I2SLoop</code>, <code>I2SRec</code>, <code>I2SWr</code>, <code>I2SStream</code>. Requires at least 4 MiB flash; Beken is deferred and BL602 has no peripheral</td>
+<td>Implemented; board testing pending</td>
+</tr>
+<tr>
+<td><strong>Filesystem commands</strong></td>
+<td><code>Ufs*</code> command family</td>
+<td>Smaller <code>df</code>, <code>ls</code>, <code>rm</code>, <code>mv</code>; no shell expansion, piping, redirection or recursive delete</td>
+<td>Implemented</td>
+</tr>
+<tr>
+<td><strong>File download</strong></td>
+<td>Berry-registered <code>UrlFetch &lt;URL&gt;</code></td>
+<td>Wi-Fi applications expose only <code>wget &lt;URL&gt;</code>, asynchronously downloading direct HTTP 200 responses with an unencoded Content-Length body and atomically replacing the URL basename (or <code>/index.html</code>). HTTPS, redirects, URL fragments and chunked bodies are unavailable; Safeboot omits it</td>
+<td>Implemented; hardware testing pending</td>
+</tr>
+<tr>
+<td><strong>Command scheduling</strong></td>
+<td><code>Backlog</code> queues deferred command execution, with <code>Delay</code> and <code>NoDelay</code> between its entries</td>
+<td>Bounded synchronous semicolon chain, validated completely first and executed in order. <code>Backlog</code>, <code>Delay</code> and <code>NoDelay</code> do not exist; <a href="../../daily-use/console-and-commands/#deferred-commands-defer"><code>Defer &lt;ms&gt; &lt;command&gt;</code></a> runs one checked command line later, with at most eight waiting</td>
+<td>Implemented; hardware testing pending</td>
+</tr>
+<tr>
+<td><strong>I2C scan</strong></td>
+<td>Probes 0x01–0x7f and publishes separate results per active bus</td>
+<td>With <code>USE_I2C</code>, scans the shared non-reserved 0x08–0x77 range on its two logical buses; a two-bus result uses one ordered <code>Results</code> envelope. Numeric suffixes and payloads are ignored, matching Tasmota</td>
+<td>Implemented; host, native build and hardware validation open</td>
+</tr>
+<tr>
+<td><strong>Command result framing</strong></td>
+<td>Multi-command sequences can produce separate responses</td>
+<td>One JSON object per command request; chains place ordered component results in a <code>Results</code> array. Berry <code>newmota.cmd()</code> returns the JSON as a map and retains results suppressed with <code>_</code></td>
+<td>Berry API implemented; transport framing pending</td>
+</tr>
+<tr>
+<td><strong>Berry host object</strong></td>
+<td>Global <code>tasmota</code> object with command and GC functions</td>
+<td>Global <code>newmota</code> object with command, GC, millisecond, timer, deferred callback, civil-time, formatting, parsing and cron methods when time is selected</td>
+<td>Implemented; see details below</td>
+</tr>
+<tr>
+<td>Berry drivers and commands</td>
+<td>Tasmota calls <code>tasmota.add_driver()</code> instance methods synchronously; <code>button_pressed</code>, <code>button_multi_pressed</code> and <code>set_power_handler</code> can return true to take over the native action, and Rules handle detached switch Actions. <code>tasmota.add_cmd()</code> adds commands answered with <code>tasmota.resp_cmnd*()</code>; <code>tasmota.read_sensors()</code> returns the SENSOR JSON</td>
+<td>With <code>USE_BERRY_DRIVERS</code>, <code>newmota.add_driver()</code>, the <code>Driver</code> class, <code>newmota.add_cmd()</code>, <code>newmota.remove_cmd()</code> and <code>newmota.resp_cmnd*()</code> behave as Tasmota's, duck typed per event and without a driver limit. Hooks run from the Berry poll after the event: as in Tasmota, true skips the remaining drivers, but native actions always happen; detach with <code>SetOption73</code>/<code>SetOption114</code>. The extension <code>switch_action</code> receives detached SetOption114 Actions, and <code>Driver</code> also declares Newmota's other hooks. <code>button_pressed</code> fires on debounced press and release, without Tasmota's raw level and once-per-second repeat. A tick method assigned after <code>add_driver()</code> starts within a second. A command response longer than 1024 bytes fails the command instead of being cut. <code>newmota.read_sensors()</code> returns the MQTT SENSOR document without <code>Time</code>, nil above 1024 bytes, and ignores the display argument. There is no Rules engine</td>
+<td>Native compile-tested; hardware testing pending</td>
+</tr>
+<tr>
+<td><strong>Berry persistence</strong></td>
+<td><code>persist</code> stores dynamic attributes as JSON in <code>/_persist.json</code>, saves dirty values before restart, and requires explicit dirty marking for nested edits</td>
+<td><code>import persist</code> with JSON-compatible values, explicit or restart-triggered saves, and nested <code>dirty()</code> marking. Bounded to 8192 bytes and 16 container levels, written in one synchronized LittleFS commit, so a failed save keeps the previous file</td>
+<td>Implemented; validation pending</td>
+</tr>
+<tr>
+<td><strong>Berry scheduling</strong></td>
+<td>Timers, cron, blocking delay and Arduino yield</td>
+<td>Timers, deferred callbacks and cron registrations share 16 callback slots. IDs are strings; duplicate IDs coexist and removal cancels all matching entries of the requested kind. Cron uses six local-time fields, requires day-of-month and weekday to both match, skips missed occurrences after forward jumps, and does not replay consumed occurrences after backward/DST fall-back changes. <code>delay</code> accepts 0..50 ms (default 0); delay zero and <code>yield</code> use RTOS equal-priority yielding or a 1 ms Pico sleep</td>
+<td>Implemented; host and five-family native validation passed, hardware testing pending</td>
+</tr>
+<tr>
+<td><strong>Native timers</strong></td>
+<td>Persists 16 <code>TimerN</code> records and dispatches Action 3 through Rules or a blink fallback</td>
+<td>Persists 16 records and global enable state; <code>TimerN</code> supports query, partial update, clear and copy. Clock and solar modes use the valid local TimeService clock; <code>Latitude</code>, <code>Longitude</code> and <code>Sunrise</code> configure solar events. Scheduling starts as soon as the clock is valid, with no 60-second post-restart guard. Actions 0–2 route through active Power endpoints; Action 3 queues for one <code>newmota.add_timer_handler(fn)</code> callback. No Rules engine or blink fallback. Window offsets are sampled inclusively once per local date and kept within that date; only observed due minutes execute. A local-minute high-water mark plus consumed-date guard suppress duplicate firings after clock corrections. Repeat history is RAM-only; a one-shot is persisted disabled before dispatch</td>
+<td>Implemented; host checks and five-family native matrix passed, hardware testing pending</td>
+</tr>
+<tr>
+<td><strong>NTP server selection</strong></td>
+<td>Can fall back to gateway and randomized servers beyond the configured slots</td>
+<td>Uses only its three persisted <code>NtpServer1</code>–<code>NtpServer3</code> slots. Empty slots are skipped; clearing all three disables NTP while retaining the clock. Server changes preserve a manual <code>Time</code> hold; <code>Time 0</code> releases it. Addresses are limited to 63 ASCII characters and valid DNS/IPv4 syntax</td>
+<td>Implemented; ESP32-C2 native compile passed, hardware testing pending</td>
+</tr>
+<tr>
+<td><strong>Berry date formatting</strong></td>
+<td><code>strftime</code> and C-style <code>strptime</code> follow libc locale</td>
+<td>Fixed English, locale-independent specifier subset shared across SDKs; unsupported directives and out-of-bound formats are rejected. Formatting has no implicit timezone conversion; parsing returns the civil epoch and unparsed suffix</td>
+<td>Implemented; host and five-family native validation passed</td>
+</tr>
+<tr>
+<td><strong>Berry pixel matrix</strong></td>
+<td>Native <code>pixmat</code> accepts 1–8 bytes per pixel and handles pixel access, blits and scrolling</td>
+<td>Hardware-independent global <code>pixmat</code> with 1–4 bytes per pixel, Berry-owned or wrapped byte buffers, checked clipping and overlap behavior, and a packed MSB-first glyph <code>blit</code> overload. <code>buffer()</code> exposes storage without copying; RGBW packing remains <code>0xRRGGBBWW</code></td>
+<td>Implemented; Berry runtime and display behavior remain untested</td>
+</tr>
+<tr>
+<td><strong>Berry Light object</strong></td>
+<td><code>light</code> module exposes Light state, setters and gamma helpers</td>
+<td>Global <code>light.get()</code>/<code>light.set()</code> through the Light owner, zero-based endpoint indices, and <code>applied_power</code> beside requested <code>power</code>. <code>gamma10</code>, <code>reverse_gamma10</code> and <code>gamma8</code> match Tasmota's integer curve and clamp input</td>
+<td>Implemented; timer callbacks remain open</td>
+</tr>
+<tr>
+<td><strong>Berry dashboard widgets</strong></td>
+<td><code>MI32.widget(html [, cb])</code> hands one HTML string (with an inline chart DSL and optional scripts) to the next poll of the <code>/m32</code> page, and calls the callback on every request to that page</td>
+<td>Newmota provides <code>import widget</code> with <code>set(id, html)</code>, <code>data(id, value)</code>, <code>remove(id)</code>, <code>on(id, fn)</code> and <code>viewers()</code>. As in Tasmota the script ships the HTML and any JS; the Home page inserts it as a card, runs its scripts and adds base code: <code>w2</code>/<code>h2</code> spans (<code>box</code> works as the card), <code>data-v</code> bindings, <code>data-chart</code> charts (<code>line</code>, <code>hist</code>, <code>gauge</code>, <code>qr</code>, <code>matrix</code>) in place of the DSL, <code>data-act</code> controls and <code>nm.*</code> helpers. Values travel separately through <code>data()</code> and are shown only as text, field values or chart numbers, so names from BLE or the network cannot become markup. Each id keeps its latest markup and data, so late viewers and several tabs see them too. Controls queue <code>fn(name, value)</code> for the Berry loop instead of calling the script per page request, and scripts no longer need fetch loops of their own; <code>viewers()</code> replaces the hint that the callback only ran while a page was open. At most 16 widgets with 4096 bytes of markup and 2816 bytes of data each; ids are <code>A-Z a-z 0-9 _ - .</code> (not <code>.</code> or <code>..</code>); they are cleared with the Berry VM. The compact Beken page draws only the <code>matrix</code> chart and, with <code>USE_MATTER</code>, <code>qr</code>; it widens cards with <code>w2</code>/<code>w3</code> but has no row spans and no update highlight</td>
+<td>Implemented; hardware testing pending</td>
+</tr>
+<tr>
+<td><strong>Berry BLE buffer</strong></td>
+<td>Tasmota's <code>BLE.conn_cb(cb, buf)</code> and <code>BLE.adv_cb(cb, buf)</code> take a script-allocated <code>bytes</code> buffer that the driver writes through a raw pointer; payloads carry a one-byte length prefix, and an advertisement is address, type, RSSI and length followed by the data</td>
+<td>The <code>BLE</code> module owns the buffer: <code>BLE.buffer</code> is a fixed-size <code>bytes</code> object, <code>BLE.len</code> the number of valid payload bytes, and <code>BLE.init(size)</code> picks the size (default 256, 32–4096) before the buffer first exists. <code>conn_cb(cb)</code>, <code>serv_cb(cb)</code> and <code>adv_cb(cb)</code> take only the callback; passing a buffer raises. Payloads start at offset 0 without a length byte; for a job the script sets <code>BLE.len</code> before <code>run()</code>. An advertisement is address (6), address type (1) and signed RSSI (1), then the payload from offset 8; <code>BLE.len</code> counts only that payload. Active scanning is <code>BLEActive</code> instead of <code>MI32Option4</code>; <code>BLEScan</code> (scan timing) is new, and <code>BLEWatch</code> sets the watch list that <code>BLE.adv_watch</code> shares. <code>BLE.info()</code> has no peer <code>name</code>; its debug record adds <code>adv_drops</code> and the scan and connection task stack headroom to Tasmota's <code>queue_drops</code>. Bond records from <code>BLE.store()</code> are per SDK and not interchangeable with Tasmota's NimBLE structs</td>
+<td>Implemented; hardware testing pending</td>
+</tr>
+<tr>
+<td><strong>Berry MQTT module</strong></td>
+<td>Publishes strings or bytes and dispatches matching subscription callbacks across reconnects</td>
+<td>Conditionally provides <code>import mqtt</code> with <code>publish</code>, callback-based <code>subscribe</code>, <code>unsubscribe</code> and <code>connected</code>; bounds script filters/listeners and follows Tasmota's payload slicing. The Berry driver/<code>mqtt_data</code> API is not present</td>
+<td>Callback API implemented; driver delivery and hardware testing pending</td>
+</tr>
+<tr>
+<td><strong>STATE</strong></td>
+<td><code>tele/STATE</code> and <code>Status 11</code> report <code>Time</code>, <code>Uptime</code>, <code>UptimeSec</code>, <code>Heap</code>, <code>SleepMode</code>, <code>Sleep</code>, <code>LoadAvg</code>, <code>MqttCount</code>, <code>Berry</code>, power/light fields, <code>Wifi</code> (<code>AP</code>, <code>SSId</code>, <code>BSSId</code>, <code>Channel</code>, <code>Mode</code>, <code>RSSI</code>, <code>Signal</code>, <code>LinkCount</code>, <code>Downtime</code>), <code>Hostname</code> and <code>IPAddress</code></td>
+<td>Reports the same fields and adds <code>Band</code> after <code>Channel</code>, including Tasmota's <code>RSSI</code> (0–100 quality) and <code>Signal</code> (dBm). <code>Mode</code> is reported only on ESP-IDF. <code>BSSId</code>, <code>Channel</code> and <code>Band</code> appear after the first link refresh, about a second after connecting. <code>Berry</code> reports the last collection instead of collecting first. Uptime comes from a 32-bit millisecond clock and wraps after 49.7 days. Safeboot keeps <code>UptimeSec</code> and the power fields</td>
+<td>Implemented; hardware testing pending</td>
+</tr>
+<tr>
+<td><strong>Sleep</strong></td>
+<td><code>Sleep 0..250</code> (default 50) sets dynamic loop sleep; <code>SetOption60</code> selects normal/light sleep; <code>SetOption127</code> keeps Wi-Fi awake; <code>STATE</code> reports <code>Sleep</code>, <code>SleepMode</code>, <code>LoadAvg</code></td>
+<td>Keeps the command, default and dynamic meaning, and serves console and web input during the wait. Values above 50 are stored but act as 50 (<code>Active</code> reports it), so 100 ms relay timers keep their deadlines; 10 ms button probes continue. Timing-sensitive work keeps the 1 ms loop. <code>SetOption60 1</code> selects normal sleep; <code>SetOption127 1</code> and <code>Sleep 0</code> disable Wi-Fi power saving. Pico 2 W never enables it; Beken, Bouffalo and AmebaD keep SDK defaults. <code>STATE</code> and <code>StatusSTS</code> report <code>SleepMode</code>, <code>Sleep</code> (applied) and <code>LoadAvg</code>, with <code>LoadAvg</code> in thousandths of a percent</td>
+<td>Implemented; hardware testing pending</td>
+</tr>
+<tr>
+<td><strong>WifiPower</strong></td>
+<td>Fixed dBm; <code>1</code> chip default, <code>0</code> RSSI-based; reported in <code>Status 5</code>. Values above 25.5 wrap, invalid text selects dynamic, dynamic mode drops to minimum without a link, and ESP32 rounds to whole dBm</td>
+<td>Keeps the command, default, limits and dynamic formula on ESP-IDF. Values above the cap are capped, invalid text is rejected, dynamic mode uses the chip default without a link, and the request reaches the SDK with quarter-dBm precision. Beken, Bouffalo, AmebaD and Pico have no command and keep SDK power</td>
+<td>Implemented on ESP-IDF; hardware testing pending</td>
+</tr>
+<tr>
+<td><strong>5 GHz Wi-Fi</strong></td>
+<td>ESP32-C5 selects 2.4 or 5 GHz automatically; <code>Channel</code> (36+) and <code>Mode</code> show the band, and <code>WifiScan</code> lists channels</td>
+<td>Selects the band the same way on ESP32-C5 and reports it in the same fields. BW16 uses its SDK's selection and reports <code>Channel</code> but not <code>Mode</code>. Other chips stay on 2.4 GHz</td>
+<td>Implemented on ESP32-C5 and BW16; hardware testing pending</td>
+</tr>
+<tr>
+<td><strong>WifiTest and web Wi-Fi setup</strong></td>
+<td>Both give a new network 9 s; the ESP32 core joins the first access point with that SSID it finds</td>
+<td><code>WifiTest</code> is the same: 9 s (12 s on BL602, where a join with DHCP took about 7.7 s), first access point found, so with one SSID on both bands it may take 2.4 GHz. Web and recovery setup scan every channel and join the strongest access point; on ESP32-C5 they allow 30 s, because a 5 GHz join took about 24 s, and on BL602 12 s</td>
+<td>Implemented; web setup timing on hardware pending</td>
+</tr>
+<tr>
+<td><strong>BLE and BLE sensors</strong></td>
+<td>Tasmota exposes BLE through optional drivers and <code>MI32</code> commands</td>
+<td><code>USE_BLE</code> provides native scanning on ESP-IDF, Bouffalo, AmebaD and Pico with <code>BLEActive</code>, <code>BLEScan</code>, <code>BLEWatch</code> and Berry <code>import BLE</code>. <code>USE_BLE_SENSORS</code> decodes MiBeacon (encrypted v3/v5), BTHome v2 (including encrypted), Qingping CGD1 and Mi Body Composition Scale advertisements, keeps up to 32 devices, exposes at most 8 through <code>StatusSNS</code>/<code>SENSOR</code>, stores configuration in <code>/mi32cfg</code>, and publishes unsolicited events. ATC and PVVX formats are skipped. No Beken adapter</td>
+<td>Implemented; compile-tested, hardware testing pending</td>
+</tr>
+<tr>
+<td><strong>Matter</strong></td>
+<td>Tasmota's Matter support is target- and build-specific</td>
+<td>Optional <code>USE_MATTER</code> builds an on-network node from configured lights, relays and sensors on ESP-IDF and RP2350 (≥ 4 MiB flash) and on Beken (2 MiB, without MQTT). Optional <code>USE_MATTER_BLE</code> adds BLE commissioning; <code>USE_MATTER_BRIDGE</code> bridges up to seven remote Tasmota devices over MQTT; both are ESP-IDF and RP2350 only. Commands <code>MtrInfo</code>, <code>MtrJoin</code>, <code>MtrReset</code>; runtime switch <code>SetOption151</code>. Fabrics/sessions stored in <code>/.newmota/matter/</code>. Access-control and CASE checks currently log only; test attestation vendor <code>0xFFF1</code></td>
+<td>Work in progress; first commissioning only</td>
+</tr>
+<tr>
+<td><strong>Status aggregation</strong></td>
+<td><code>Status 0</code> publishes separate section responses; <code>Status0</code> returns the combined object on <code>STATUS0</code></td>
+<td>Over MQTT, both <code>Status 0</code> and <code>Status0</code> publish separate sections on <code>STATUS</code>, <code>STATUS1</code> and so on, because the combined object does not fit the 1024-byte MQTT response limit. Elsewhere both return one combined object, and a request from elsewhere also publishes the sections while MQTT is enabled. Safeboot stays combined on <code>STATUS0</code></td>
+<td>Intentional; current dispatcher</td>
+</tr>
+<tr>
+<td><strong>Status fields</strong></td>
+<td><code>Status</code> through <code>Status 13</code> report the full Tasmota field lists</td>
+<td>Reports the fields with a backing setting or measurement, in Tasmota order. <code>Status</code> carries <code>DeviceName</code>; <code>StartupUTC</code> appears only with valid time; <code>Sunrise</code>/<code>Sunset</code> are left out on polar dates; <code>CpuFrequency</code> and flash identity are left out where the platform cannot report them. Safeboot keeps short sections and has no <code>StatusMQT</code></td>
+<td>Implemented; remaining fields open; hardware testing pending</td>
+</tr>
+<tr>
+<td><strong>Status availability</strong></td>
+<td><code>Status 6</code> without MQTT, <code>Status 9</code> without energy, <code>Status 12</code> without a crash, <code>Status 13</code> without shutters return an error</td>
+<td>Does the same and leaves those sections out of <code>Status 0</code>. <code>Status 12</code> and <code>Status 13</code> are always unavailable, because crash capture and shutters do not exist</td>
+<td>Implemented</td>
+</tr>
+<tr>
+<td><strong>Status 4 memory units</strong></td>
+<td>Measurements in KiB</td>
+<td><code>Free</code>, <code>Heap</code>, <code>StackLowMark</code> and <code>PsrFree</code> in bytes; used-size and capacity fields stay in KiB. Unavailable metrics are omitted; PSRAM appears only when supported and initialized</td>
+<td>Implemented; intentional compatibility difference</td>
+</tr>
+<tr>
+<td><strong>Console results</strong></td>
+<td>Serial shows timestamped log lines with an <code>RSL:</code> label and topic</td>
+<td>Timestamps each result line on serial and in the Web Console (<code>HH:MM:SS.mmm</code>) but prints the JSON without a label. MQTT and <code>POST /api/command</code> stay plain JSON</td>
+<td>Implemented</td>
+</tr>
+<tr>
+<td><strong>Restart reason</strong></td>
+<td>ESP32 reset text such as <code>Software reset digital core</code>, or <code>Blocked Loop</code></td>
+<td>Reports <code>Power On</code>, <code>Software</code>, <code>Watchdog</code>, <code>Panic</code>, <code>Brownout</code>, <code>Deep Sleep</code> or <code>External</code>, the same on every platform. Where the reason is unknown, <code>Status 1</code> leaves it out and <code>Info3</code> reports <code>Power On</code> or <code>Restart</code>. Bouffalo always counts as unknown; Safeboot <code>Info3</code> keeps <code>Power On</code> or <code>Restart</code>. A blocked loop is not detected</td>
+<td>Implemented; hardware testing pending</td>
+</tr>
+<tr>
+<td>Boot-loop fallback</td>
+<td>From the fourth quick restart (SetOption36 offset 1), Tasmota permanently disables rules, shutters, BLE and autoexec in the settings, then clears the user GPIOs, then selects the fallback module, and switches to Safeboot after ten</td>
+<td>Newmota skips BLE, Matter, LVGL autostart and <code>autoexec.be</code>, and from the fifth also the user GPIO assignments, for that boot only and never changes the settings; the next boot that is not a loop starts everything again. From the tenth it restarts into the paired Newmota Safeboot only, never a foreign recovery image. <code>Status 1</code> reports <code>BootLoop</code>. SetOption36 is absent; the fallback-module step is open. ESP32-C2 uses ordinary no-init RAM like Tasmota; power-on, brownout and deep-sleep wakes start a new count, and retention across warm-reset paths needs hardware testing. Other ESP targets require RTC memory. AmebaD uses SDK user backup register 3 with a magic and inverse count; only software and watchdog resets continue a valid count, and ten seconds of runtime clear it. Beken and Bouffalo maintain untested diagnostic no-init SRAM counts but keep the guard unavailable; they skip autoexec and never reduce a boot. Bouffalo continues valid records on unknown resets and starts fresh on deep-sleep wakes; no-init placement does not establish power-cycle freshness</td>
+<td>Implemented; hardware testing pending</td>
+</tr>
+<tr>
+<td><strong>HTTP command endpoint</strong></td>
+<td><code>GET /cm</code></td>
+<td>Authenticated <code>POST /api/command</code> through the common command processor</td>
+<td>Implemented</td>
+</tr>
+<tr>
+<td><strong>Browser language</strong></td>
+<td>Commonly selects language behavior through firmware conventions</td>
+<td>Embeds one locale catalog at build time. Protocol names, JSON keys, MQTT topics and errors stay English</td>
+<td>Implemented</td>
+</tr>
+<tr>
+<td><strong>Normal web product requirement</strong></td>
+<td>Web support depends on the selected build and target budget</td>
+<td>Every network-capable normal application, including Compact, includes a device-hosted web server and essential browser UI</td>
+<td>Design requirement; HTTP+Gzip is current</td>
+</tr>
+<tr>
+<td><strong>Web transport selection</strong></td>
+<td>May expose more than one web transport through build options</td>
+<td>Embeds one selected web representation per build and has no runtime HTTP/HTTPS fallback</td>
+<td>Design rule</td>
+</tr>
+<tr>
+<td><strong>Settings storage</strong></td>
+<td>Settings and filesystem formats are target- and version-specific</td>
+<td>Owns versioned LittleFS records under <code>/.newmota/</code>, kept in two A/B slots with generation, CRC, atomic single-write commit and write-lock rules</td>
+<td>Implemented baseline; migration is separate</td>
+</tr>
+<tr>
+<td><strong>Hardware assignment</strong></td>
+<td>Broad global GPIO and Template tables</td>
+<td>Preserves the numeric GPIO namespace and Template shape, then resolves them through typed, architecture-aware topology and fixed-capacity bindings</td>
+<td>Implemented baseline</td>
+</tr>
+<tr>
+<td><strong>GPIO listing</strong></td>
+<td>Can list its complete compiled GPIO name catalog</td>
+<td><code>GPIOs</code> reports the choices compiled for that firmware; the complete canonical registry remains host-side</td>
+<td>Intentional size boundary</td>
+</tr>
+<tr>
+<td><strong>TuyaMCU</strong></td>
+<td>TuyaMCU v2 maps MCU data points to device functions</td>
+<td>Optional serial driver supports relays, switches, lights, enums and optional sensors and energy. MCU Wi-Fi reset requests are acknowledged and logged rather than changing Wi-Fi settings; mode 2 does not assign pins. See <a href="../../daily-use/tuya-mcu/">TuyaMCU</a></td>
+<td>Compile-tested; hardware testing pending</td>
+</tr>
+<tr>
+<td>LED driver chips</td>
+<td>Tasmota drives BP5758D at a fixed 14 mA on all outputs (<code>xlgt_08</code>); BP1658CJ and SM2335 take one current code for RGB and white from the <code>DAT</code> index (<code>xlgt_10</code>, <code>xlgt_09</code>)</td>
+<td>Newmota sends the same frames and adds <code>LightCurrent &lt;rgb&gt;,&lt;white&gt;</code> for separate RGB and white currents (BP5758D in mA, 1–93; BP1658CJ and SM2335 as codes 0–15, SM2135 as codes 0–7 RGB and 0–10 white), saved and applied without restart; without it the Tasmota currents apply. On BP5758D an output takes the current of the channel it carries after <code>SetOption37</code>, as in OpenBeken. The bus is open drain with the internal pull-up, and frames are sent only when they change. More than one chip disables the Light. SM2135 keeps Tasmota's ten <code>DAT</code> presets; Tasmota's older <code>Switch1</code> way of selecting BGR is not supported, use <code>SM2135 DAT2</code></td>
+<td>Implemented for BP5758D, BP1658CJ, SM2335 and SM2135; compile-tested, hardware testing pending</td>
+</tr>
+<tr>
+<td><strong>PWM ownership</strong></td>
+<td><code>SetOption15</code> selects raw or Light handling dynamically</td>
+<td>Freezes PWM1–PWM5 ownership and <code>SetOption68</code>/<code>SetOption37</code> split grouping until restart, and returns an explicit ownership error for raw access to Light outputs</td>
+<td>Implemented</td>
+</tr>
+<tr>
+<td><strong>PWM timing</strong></td>
+<td>ESP32 supports target-specific and per-channel conventions</td>
+<td>Global <code>PWMFrequency</code> and <code>PWMFrequency Hz,channel</code> on all native families through checked allocation; shared timing conflicts reject without retuning siblings. Global edits clear per-output overrides. Bounds are 2–50000 Hz subject to native acceptance; invalid channels reject instead of falling back to a global edit</td>
+<td>Implemented; hardware timing untested</td>
+</tr>
+<tr>
+<td><strong>Sparse Power identities</strong></td>
+<td>Commonly packs devices into relay/light order</td>
+<td>Preserves relay identities and holes, appends Light after the highest configured relay, and rejects endpoint overflow. A sole endpoint outside index 1 retains its numbered POWER key</td>
+<td>Implemented</td>
+</tr>
+<tr>
+<td>Light transforms</td>
+<td>Tasmota uses subtype-specific gamma and color/fade transforms</td>
+<td>Newmota uses a bounded gamma 2.8 lookup and elapsed perceptual interpolation. As in Tasmota's <code>calcGammaBulbCW</code>, CT and RGBCW Lights apply gamma to the sum of both whites and share it out in their ratio, unless the whites together exceed full scale; Newmota keeps the channel ratio instead of recomputing it from CT, which matches once a fade ends. Grouped RGB and white share brightness/power unless SetOption37 bit 128 selects split endpoints on four/five-channel layouts; SetOption68 takes precedence. SetOption37 values 0–119 use Tasmota's channel permutation on PWM Lights; a value that would leave one of the Light's outputs dark keeps the default order instead of darkening it, and WS2812 strips ignore it in favour of <code>PixelType</code>. <code>RGBWWTable</code> (1–5 values 0–255; larger values are rejected where Tasmota truncates) and SetOption105 white blend apply after gamma to PWM Lights, not to independent channels or WS2812 strips; a fifth value of 0 becomes SetOption105 1 at the next restart, as in Tasmota</td>
+<td>Implemented; electrical cadence remains untested</td>
+</tr>
+<tr>
+<td><strong>Light command results</strong></td>
+<td>Light mutations can return full state; HsbColor accepts partial/indexed updates</td>
+<td>Returns bounded command values with full diagnostics in State/StatusSTS. <code>Color1</code>/<code>Color2</code> support full-length hex, strict CSV and fixed presets. Grouped and WS2812 <code>HsbColor</code> accept partial/indexed updates; low-saturation queries can shift hue; achromatic queries use zero. Linked <code>HsbColor</code> clears white; linked <code>White</code> selects white and clears RGB. Split white-only edits preserve RGB state and effects</td>
+<td>Implemented; remaining Tasmota Light syntax open</td>
+</tr>
+<tr>
+<td><strong>Light palettes and schemes</strong></td>
+<td>Palettes are RAM-only and may allocate larger dynamic buffers; native animations have their own speed rules</td>
+<td>Retains up to eight palette entries and cursors through <code>SaveData</code>, rejects invalid lists atomically, and implements <code>Color +/-</code> cycling. Schemes 0–4 and <code>Wakeup</code>/<code>WakeupDuration</code> use the cooperative loop. RGB effects step every <code>Speed × 100 ms</code>, preserve split white outputs and use deterministic random state. <code>Wakeup</code> defaults to 60 s and supports 1–3000 s; queries are read-only. Unsupported persisted schemes reset to steady; numeric <code>Color</code> values keep fixed preset meaning even with a palette</td>
+<td>Implemented; electrical cadence untested</td>
+</tr>
+<tr>
+<td><strong>WS2812 Light</strong></td>
+<td>Configured addressable Light commands for pixel order, geometry, effects and direct pixel edits, up to 512 pixels</td>
+<td>Optional <code>USE_WS2812</code> makes one configured strip the shared RGB/RGBW Light owner on ESP-IDF, Pico SDK, BL602 and AmebaD. Supports 1–512 pixels, six RGB wire orders, RGBW/white-first layouts, <code>Led&lt;n&gt;</code>, <code>Pixels</code>, <code>PixelType</code>, <code>Rotation</code>, <code>Width</code>, <code>StepPixels</code>, clock colors/direction and schemes 5–14. Berry may borrow that owner or open a strip on an unassigned pin. Beken does not compile these commands; DDP/Art-Net/L1MusicSync are deferred. Default <code>PixelType</code> is GRB</td>
+<td>Implemented; hardware testing pending</td>
+</tr>
+<tr>
+<td><strong>Light defaults</strong></td>
+<td>Subtype-specific white startup and CT defaults</td>
+<td>Initially retains RGB full-white components, white-extension components off, and CT 326; two-channel default components are both full. Configure CT explicitly for a cold/warm mix</td>
+<td>Implemented; board calibration open</td>
+</tr>
+<tr>
+<td><strong>MQTT transport and integrations</strong></td>
+<td>Capabilities depend on the selected image</td>
+<td>Bounded plain MQTT 3.1.1/QoS 0 with configurable topics, LWT, group/fallback routing, retained publications and browser configuration. TLS, Rules, sensor/button/switch producer integration, <code>Publish3</code>, and MQTT file/log streaming are separate work. Publications above the packet limit are skipped with a log line</td>
+<td>Plain implementation; hardware testing pending</td>
+</tr>
+<tr>
+<td><strong>Discovery</strong></td>
+<td>Publishes <code>tasmota/discovery/&lt;MAC&gt;/config</code> for its own Home Assistant integration; <code>SetOption19 1</code> selects the legacy Home Assistant discovery, which standard builds leave out</td>
+<td>With <code>USE_HA_DISCOVERY</code>, publishes Home Assistant's own MQTT discovery, one retained <code>homeassistant/&lt;platform&gt;/&lt;MAC&gt;/&lt;id&gt;/config</code> per entity: relays, sensor readings, RSSI, Signal, Uptime, IP address and a Restart button. Needs only Home Assistant's MQTT integration; openHAB and Domoticz read the same format. No <code>tasmota/discovery</code>. <code>SetOption19 1</code> turns it off and removes the device. Lights, switches and buttons follow. See <a href="../../daily-use/mqtt/#home-assistant-discovery">MQTT</a></td>
+<td>Phase 1 implemented; hardware testing pending</td>
+</tr>
+<tr>
+<td><strong>Recovery role</strong></td>
+<td>Safeboot retains MQTT alongside its recovery surface</td>
+<td>Follows that MQTT policy on every current Wi-Fi platform, shares the paired image's persisted settings, and uses a separate small authenticated recovery page instead of the normal UI</td>
+<td>Implemented policy; native slot checks apply</td>
+</tr>
+<tr>
+<td><strong>WPA3-SAE on ESP-IDF</strong></td>
+<td>Enabled in every ESP image, with the SDK's mbedTLS supplicant</td>
+<td>Treated as a feature of images with at least 4 MiB flash. 2 MiB ESP images, including Safeboot, omit it and cannot join a WPA3-only network. On ESP chips with their own radio (ESP-IDF 5.5 and 6.1), the supplicant runs on BearSSL with the chip's SHA-1, SHA-256 and P-256 hardware (<code>USE_WIFI_WPA3_BEARSSL</code>, on by default), from the Newmota ESP-IDF fork. It covers WPA3-SAE, SAE-PK with P-256 keys and OWE as station, and images without HTTPS link no mbedTLS. C3, C5 and C6 Safeboot leave out SAE-PK, OWE and WPA3 SoftAP to fit their slot. On Beken (BK7231N, BK7238, BK7252N) the same backend runs under the SDK's prebuilt supplicant, on by default; SAE then offers group 19 only, where the mbedTLS backend also offered group 20. On Bouffalo (BL602, BL616, BL618DG) it is on by default, with the PSK derived on the SHA-1 engine: BL616 and BL618DG run the Wi-Fi 6 supplicant on BearSSL (group 19 only), BL602 moves only the supplicant's hashes</td>
+<td>Implemented; WPA2 tested on ESP32-C3, ESP32-S3 and XH-CB3S (BK7238), BL602 and BL616 joined a network with the BearSSL build, BL618DG untested, WPA3 on hardware pending</td>
+</tr>
+<tr>
+<td><strong>Wi-Fi random numbers on Beken</strong></td>
+<td>The BDK's prebuilt supplicant takes nonces and SAE/OWE secrets from libc <code>rand()</code>, which nothing seeds at boot</td>
+<td>Every Beken Wi-Fi build redirects the supplicant's <code>os_get_random()</code> to the hardware random number generator</td>
+<td>Implemented; builds only</td>
+</tr>
+<tr>
+<td><strong>ESP-IDF assertion reporting</strong></td>
+<td>Prebuilt Arduino libraries compile without stringified assertion text</td>
+<td>Compiles ESP-IDF with silent assertions. Every check still runs and aborts, but a failure no longer carries its expression, file and line</td>
+<td>Implemented; size boundary</td>
+</tr>
+<tr>
+<td><strong>Beken recovery</strong></td>
+<td>Image switching is not universal across boot layouts</td>
+<td>Keeps the native single-application/update model and does not claim Safeboot, local A/B rollback or <code>Restart 3</code></td>
+<td>Target-specific design</td>
+</tr>
+</tbody>
+</table>
+<p>The internal implementation also differs in ownership: portable application code uses narrow platform contracts, while SDK types, tasks, native storage and image operations stay inside platform adapters. Compatibility lives at the command, data and device-behavior edges; the internal driver and build structure is Newmota's own.</p>
+<hr />
+<h2 id="current-gaps-that-are-not-deliberate-differences">Current gaps that are not deliberate differences<a class="headerlink" href="#current-gaps-that-are-not-deliberate-differences" title="Permanent link">&para;</a></h2>
+<p>These items are intended to follow Tasmota or the approved Newmota design once implementation and testing are complete:</p>
+<ul>
+<li><strong>TLS</strong>: HTTPS for the normal web service and TLS MQTT. The current Compact slice uses authenticated HTTP+Gzip because it is the measured implementation available today.</li>
+<li><strong>Recovery</strong>: the separate Safeboot browser updater, remote update, failed-boot handling, and platform-specific recovery testing.</li>
+<li><strong>Button debounce</strong>: <code>ButtonDebounce</code> supports the normal 10 ms filter and logical HIGH/LOW stability flags. The native 2 ms AC pulse detector selected by values ending in 9 remains open; those values are explicitly rejected. Cooperative probes can be delayed by blocking application work.</li>
+<li><strong>Returning to stock Tasmota</strong> remains a separate optional gate.</li>
+<li><strong>Ping</strong>: Wi-Fi applications include asynchronous IPv4 ICMP <code>Ping</code>; Safeboot omits it. Newmota permits one fixed campaign, uses asynchronous DNS, and accepts indices 0–8 (default one; zero tries up to four and stops at the first reply). It rejects larger indices, IPv6, whitespace and ambiguous numeric address spellings. Tasmota can keep campaigns for multiple destinations and supports IPv6 when selected. Newmota's five-second DNS deadline, one-second probe deadline/cadence, busy state through cancellation/delivery, and queryable current/last status are deliberate bounds. Results retain numeric counters on DNS failure and add an <code>Error</code> field. Host tests and native compilation do not establish device reachability.</li>
+<li><strong>Additional drivers and commands</strong> whose platform owners do not yet exist.</li>
+<li><strong>Audio consumers</strong>: TensorFlow microphone integration, camera/audio synchronization, simultaneous network walkie-talkie routing and BLE audio endpoints. The native session API supports bounded microphone capture, encoded files/network streams and configurable I2S input/output, but these higher-level consumers have no Newmota owners.</li>
+<li><strong>Berry Light timer callbacks</strong>; <code>light.get()</code>/<code>light.set()</code> cover retained endpoint state and synchronous mutations, and the gamma helpers provide pure integer conversions.</li>
+<li><strong>Matter follow-up</strong>: access-control/CASE enforcement, production attestation, <code>MtrUpdate</code>, and testing beyond a first commissioning.</li>
+<li><strong><code>Module2</code></strong> and other unfinished compatibility edges.</li>
+<li><strong>Further MQTT features</strong>: Home Assistant discovery for lights, switches and buttons, Rules, and MQTT file/log streaming.</li>
+<li><strong>Stock Tasmota-to-Newmota OTA migration</strong>: a bootstrap settings importer is present in ESP32 source for all eight ESP targets; end-to-end device trials remain open. See <a href="../../start/from-tasmota/">Switching From Tasmota</a>.</li>
+</ul>
+<hr />
+<h2 id="berry-filesystem-listings">Berry filesystem listings<a class="headerlink" href="#berry-filesystem-listings" title="Permanent link">&para;</a></h2>
+<p>Berry <code>path.listdir()</code> returns direct-child basenames with a deliberate limit of 128 entries and 8192 bytes of names per call. Exceeding either limit raises <code>value_error</code> without returning a partial listing. Paths use the shared filesystem limit of 191 bytes and reject embedded NUL bytes.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.path", "navigation.top", "navigation.tracking", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy", "content.code.select", "content.code.annotate", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2552 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="User guide for Newmota IoT firmware — daily use, device setup, and Tasmota migration.">
+      
+      
+        <meta name="author" content="Newmota Project Team">
+      
+      
+      
+        <link rel="prev" href="../tuya-mcu/">
+      
+      
+        <link rel="next" href="../sensors/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/logo-house-tile-64.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Wi-Fi, Time & Status - Newmota Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#wi-fi-time-status" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+        <aside class="md-banner">
+          <div class="md-banner__inner md-grid md-typeset">
+            
+            <strong>Pre-alpha:</strong> Newmota is for development boards only; updates can wipe settings
+    and need a wired flash when they fail.
+    <a href="../../background/roadmap/">What the stages mean</a>
+          </div>
+          
+        </aside>
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Newmota Documentation" class="md-header__button md-logo" aria-label="Newmota Documentation" data-md-component="logo">
+      
+  <img src="../../assets/logo-house-tile.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Newmota Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Wi-Fi, Time & Status
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../start/first-steps/" class="md-tabs__link">
+          
+  
+  
+  Start Here
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../web-interface/" class="md-tabs__link">
+          
+  
+  
+  Daily Use
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../background/tasmota-differences/" class="md-tabs__link">
+          
+  
+  
+  Background
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../contributors/build-from-source/" class="md-tabs__link">
+          
+  
+  
+  For Contributors
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Newmota Documentation" class="md-nav__button md-logo" aria-label="Newmota Documentation" data-md-component="logo">
+      
+  <img src="../../assets/logo-house-tile.svg" alt="logo">
+
+    </a>
+    Newmota Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start Here
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Start Here
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/first-steps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    First Steps With Your Device
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/install-and-update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install & Update Firmware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/from-tasmota/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Switching From Tasmota
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web Flasher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/supported-devices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Supported Devices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build Your Firmware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/esp32/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ESP32 Devices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/pico/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Raspberry Pi Pico
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/bouffalo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bouffalo Devices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/beken/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beken Devices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../start/amebad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AmebaD BW16 Devices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Daily Use
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Daily Use
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../web-interface/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web Interface
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../console-and-commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Console & Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../files-and-settings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Files & Settings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../device-hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setting Up Your Device Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../power-and-buttons/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relays, Buttons & LEDs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lights-and-pwm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lights & PWM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tuya-mcu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TuyaMCU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wi-Fi, Time & Status
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wi-Fi, Time & Status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#onboarding-recovery-access-point-softap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Onboarding &amp; Recovery Access Point (SoftAP)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wi-fi-station-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wi-Fi Station Service
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Wi-Fi Station Service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#network-identity-diagnostic-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Network Identity &amp; Diagnostic Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sleep-wi-fi-power-bands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sleep, Wi-Fi Power &amp; Bands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sleep, Wi-Fi Power &amp; Bands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deep-sleep" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deep sleep
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sleep" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sleep
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wifipower-esp-idf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WifiPower (ESP-IDF)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-ghz-wi-fi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5 GHz Wi-Fi
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#timekeeping-ntp-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Timekeeping &amp; NTP Service
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#time-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Time Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#time-formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time Formats
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#automatic-daylight-saving-time-dst" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automatic Daylight Saving Time (DST)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#time-telemetry-status-7-statustim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time Telemetry (Status 7 / StatusTIM)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optional-rtc-chips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optional RTC Chips
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optional-gps-ubx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optional GPS (UBX)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optional-ntp-server-use_ntp_server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optional NTP Server (USE_NTP_SERVER)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#native-civil-solar-timers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Native Civil &amp; Solar Timers (Timers / Timer1–Timer16)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Native Civil &amp; Solar Timers (Timers / Timer1–Timer16)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#timer-global-location-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Timer Global &amp; Location Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timer-configuration-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Timer Configuration Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#berry-timer-callback-handler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Berry Timer Callback Handler
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#editing-timers-in-the-browser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Editing timers in the browser
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ethernet-and-esp32-p4-wi-fi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ethernet and ESP32-P4 Wi-Fi
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sensors & Environmental
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bluetooth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bluetooth & BLE Sensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../energy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Energy Metering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../displays-and-touch/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Displays & Touch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../audio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Audio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cameras/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cameras
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mqtt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MQTT & Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../matter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Matter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../berry-scripting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Berry Scripting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Background
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Background
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../background/tasmota-differences/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Coming from Tasmota
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../background/design-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design Principles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../background/roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap and Release Stages
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../background/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    For Contributors
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    For Contributors
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributors/build-from-source/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build From Source
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributors/user-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Personal Build Configurations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributors/setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributors/build-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build System Internals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributors/source-and-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Source & Config Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributors/editor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Editor Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../web-interface/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Daily Use
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="wi-fi-time-status">Wi-Fi, Time &amp; Status<a class="headerlink" href="#wi-fi-time-status" title="Permanent link">&para;</a></h1>
+<p>Getting online, keeping the clock right, and asking the device how it's doing. The two-minute version: set <code>SSId1</code>/<code>Password1</code>, confirm with <code>Status 5</code>, set your <code>Timezone</code> — details below.</p>
+<hr />
+<h2 id="onboarding-recovery-access-point-softap">Onboarding &amp; Recovery Access Point (SoftAP)<a class="headerlink" href="#onboarding-recovery-access-point-softap" title="Permanent link">&para;</a></h2>
+<p>When a device has no stored Wi-Fi credentials, or if it cannot associate with configured networks, Newmota automatically starts an open onboarding access point:</p>
+<ul>
+<li><strong>SSID</strong>: Formatted as <code>newmota-XXXXXX</code> (derived from the device MAC address and bounded to 31 bytes).</li>
+<li><strong>Default IP</strong>: <code>192.168.4.1</code>.</li>
+<li><strong>Onboarding Page</strong>: Connect your laptop or smartphone to the device's open Wi-Fi network and navigate to <code>http://192.168.4.1/</code> (<code>https://192.168.4.1/</code> on builds with HTTPS). There is no captive-portal DNS redirect, so type the address yourself. Every platform family, including Bouffalo BL616/BL618DG, serves the setup AP from <code>192.168.4.1</code> with DHCP.</li>
+<li><strong>Safe Credential Testing</strong>: The browser onboarding page allows you to scan local networks, select your SSID, and test credentials with the device before committing them. Credentials are saved only after successful association and DHCP lease.</li>
+</ul>
+<hr />
+<h2 id="wi-fi-station-service">Wi-Fi Station Service<a class="headerlink" href="#wi-fi-station-service" title="Permanent link">&para;</a></h2>
+<p>Once configured, your device joins your network as a station client. Configure primary and fallback networks:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>SSId1 MyHomeNetwork
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Password1 my-secret-password
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>SSId2 MyPhoneHotspot
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Password2 hotspot-password
+</span></code></pre></div>
+<h3 id="network-identity-diagnostic-commands">Network Identity &amp; Diagnostic Commands<a class="headerlink" href="#network-identity-diagnostic-commands" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Hostname</code></td>
+<td><code>Hostname</code></td>
+<td>Queries the current runtime network hostname.</td>
+</tr>
+<tr>
+<td><code>IPAddress</code></td>
+<td><code>IPAddress</code> or <code>IPAddress&lt;1..5&gt;</code></td>
+<td>Queries all configured addresses (<code>1</code>: IP, <code>2</code>: Gateway, <code>3</code>: Subnet, <code>4</code>: DNS1, <code>5</code>: DNS2) or one indexed address.</td>
+</tr>
+<tr>
+<td><code>WifiScan</code></td>
+<td><code>WifiScan [1]</code></td>
+<td>Performs an asynchronous scan and lists detected APs (SSID, RSSI, channel, BSSID, security mode).</td>
+</tr>
+<tr>
+<td><code>WifiTest</code></td>
+<td><code>WifiTest &lt;ssid&gt;,&lt;password&gt;</code></td>
+<td>Tests station connection to candidate credentials without saving them or dropping existing links. Joins the first access point with that SSID it finds and gives up after 9 s, as Tasmota does (12 s on BL602).</td>
+</tr>
+<tr>
+<td><code>DeviceName</code></td>
+<td><code>DeviceName [name]</code></td>
+<td>Sets or queries the human-readable device name (up to 31 bytes), distinct from the runtime network hostname.</td>
+</tr>
+<tr>
+<td><code>Ping</code></td>
+<td><code>Ping &lt;host&gt;</code> or <code>Ping&lt;0..8&gt; &lt;host&gt;</code></td>
+<td>Runs an asynchronous IPv4 ICMP ping campaign. <code>Ping</code> sends 1 probe; <code>Ping1</code>–<code>Ping8</code> send N probes; <code>Ping0</code> makes up to four attempts and stops at the first reply. Querying <code>Ping</code> or <code>Ping ?</code> returns the latest campaign stats.</td>
+</tr>
+<tr>
+<td><code>wget</code></td>
+<td><code>wget &lt;URL&gt;</code></td>
+<td>Asynchronously downloads direct HTTP 200 file from URL to LittleFS (saving to the URL basename, or <code>/index.html</code>), atomically replacing on success. Querying <code>wget</code> reports progress.</td>
+</tr>
+</tbody>
+</table>
+<p>Check connection status at any time with <code>Status 5</code> — the <code>IPAddress</code> it reports is where the <a href="../web-interface/">web UI</a> lives:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>&gt; Status 5
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>{"StatusNET":{"Hostname":"newmota-A1B2","IPAddress":"192.168.1.50","Gateway":"192.168.1.1","Subnetmask":"255.255.255.0","DNSServer1":"192.168.1.1","DNSServer2":"0.0.0.0","Mac":"24:4C:AB:12:34:56"}}
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>&gt; Ping 1.1.1.1
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>{"Ping":"Done"}
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>&gt; Ping
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>{"Ping":{"State":"completed","Destination":"1.1.1.1","Sent":1,"Success":1,"Timeout":0,"Error":""}}
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>&gt; wget http://192.168.1.100:8000/autoexec.be
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>{"wget":"Started"}
+</span></code></pre></div>
+<hr />
+<p>The connected Wi-Fi band appears as <code>Band</code> (<code>2.4GHz</code> or <code>5GHz</code>) in <code>STATE</code>, <code>Status 5</code> and the web Information page after the first link refresh.</p>
+<h2 id="sleep-wi-fi-power-bands">Sleep, Wi-Fi Power &amp; Bands<a class="headerlink" href="#sleep-wi-fi-power-bands" title="Permanent link">&para;</a></h2>
+<h3 id="deep-sleep">Deep sleep<a class="headerlink" href="#deep-sleep" title="Permanent link">&para;</a></h3>
+<p>Optional <code>USE_DEEPSLEEP</code>, selected in a <a href="../../contributors/user-configuration/">personal build</a>, provides timed deep sleep on all five platform families. <code>DeepSleepTime 11..316223999</code> saves the interval in seconds; <code>DeepSleepTime 0</code> disables it. If telemetry was disabled, enabling deep sleep sets <code>TelePeriod 300</code>.</p>
+<p>After each telemetry period the device starts a four-second countdown and sleeps until the next interval boundary on the local clock. A start other than a deep-sleep wake has a 64-second countdown, leaving time to reach the device; fifteen seconds without a network address also starts a countdown. Holding a configured <code>DeepSleep</code> GPIO low keeps it awake. Before sleeping, it publishes a retained <code>tele/&lt;topic&gt;/DeepSleep</code> event and closes MQTT. While deep sleep is enabled, the boot count increases only with <code>SetOption76 1</code>.</p>
+<p>ESP except C2, AmebaD and Pico retain the wake plan and correct timer slip, sleeping at most an hour at a time before returning to sleep if needed. ESP32-C2, Beken and Bouffalo do not retain it: each wait uses one sleep, limited by the chip. Beken and BL602 cap one sleep at about 36 hours. RP2040 stops its clocks except the RTC and reboots on the alarm. Tasmota's timer <code>Wakeup</code> rule is unavailable. These paths have not yet been tested on hardware.</p>
+<p>On supported ESP chips, optional <code>USE_BERRY_ULP</code> adds <code>import ULP</code> for coprocessor programs and immediate sleep; see <a href="../berry-scripting/#ulp-coprocessor">Berry Scripting</a>.</p>
+<h3 id="sleep">Sleep<a class="headerlink" href="#sleep" title="Permanent link">&para;</a></h3>
+<p><code>Sleep 0..250</code> sets the dynamic loop sleep in milliseconds (default <code>50</code>). The main loop aims for one pass per <code>Sleep</code> interval when idle, and the device keeps serving console and web input during the wait. Values above <code>50</code> are stored but act as <code>50</code>, so 100 ms relay timers keep their deadlines; <code>Sleep</code> reports both the stored value and the active one:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>&gt; Sleep 100
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>{"Sleep":{"100":{"Active":"50"}}}
+</span></code></pre></div>
+<ul>
+<li><code>Sleep 0</code> and <code>SetOption127 1</code> disable Wi-Fi power saving.</li>
+<li><code>SetOption60 1</code> selects normal sleep (the full wait after each pass) instead of dynamic sleep.</li>
+<li>Timing-sensitive work — light fades, addressable strips, open serial ports, BLE, transfers, and builds with I2S, edge capture or a display — keeps the 1 ms loop.</li>
+<li>Pico 2 W never enables Wi-Fi power saving; Beken, Bouffalo and AmebaD keep their SDK defaults.</li>
+</ul>
+<p><code>Status 11</code>/<code>STATE</code> report <code>SleepMode</code>, <code>Sleep</code> (the applied value) and <code>LoadAvg</code>; <code>Status 1</code> reports the stored <code>Sleep</code>.</p>
+<h3 id="wifipower-esp-idf"><code>WifiPower</code> (ESP-IDF)<a class="headerlink" href="#wifipower-esp-idf" title="Permanent link">&para;</a></h3>
+<p>On ESP-IDF builds, <code>WifiPower &lt;dBm&gt;</code> sets a fixed Wi-Fi transmit power, <code>1</code> selects the chip default, and <code>0</code> follows the station's RSSI. Values above the chip maximum are capped; invalid text is rejected. The request reaches the SDK with quarter-dBm precision. <code>Status 5</code> reports the resulting value.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>&gt; WifiPower 18.5
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>{"WifiPower":18.5}
+</span></code></pre></div>
+<p>Beken, Bouffalo, AmebaD and Pico builds have no <code>WifiPower</code> command and keep the SDK's power. Dynamic mode uses the chip default while there is no link.</p>
+<h3 id="5-ghz-wi-fi">5 GHz Wi-Fi<a class="headerlink" href="#5-ghz-wi-fi" title="Permanent link">&para;</a></h3>
+<p>On ESP32-C5, Newmota selects the band automatically, just as Tasmota does. No field names the band: <code>Status 11</code> reports <code>Channel</code> (36 and up means 5 GHz) and <code>Mode</code>, and <code>WifiScan</code> lists each network's channel. BW16 uses its SDK's band selection and reports <code>Channel</code> but not <code>Mode</code>. Other chips stay on 2.4 GHz. Hardware testing for both 5 GHz paths remains open.</p>
+<hr />
+<h2 id="timekeeping-ntp-service">Timekeeping &amp; NTP Service<a class="headerlink" href="#timekeeping-ntp-service" title="Permanent link">&para;</a></h2>
+<p>Accurate wall-clock time is maintained via asynchronous UDP NTP packets against standard network time servers:</p>
+<ul>
+<li><strong>Asynchronous Protocol</strong>: Sends non-blocking UDP requests via LwIP without pausing the main event loop.</li>
+<li><strong>Three persisted slots</strong>: <code>NtpServer1</code>, <code>NtpServer2</code> and <code>NtpServer3</code>. The defaults are <code>2.pool.ntp.org</code>, <code>2.europe.pool.ntp.org</code> and <code>2.nl.pool.ntp.org</code>.</li>
+<li><strong>No hidden fallback</strong>: only those three slots are used. Empty slots are skipped; clearing all three disables NTP while retaining the clock. Newmota does <strong>not</strong> fall back to the gateway or to randomized servers.</li>
+<li><strong>Retry Schedule</strong>: Re-queries every minute while unsynchronized; refreshes hourly once locked. A failed server moves the rotation to the next slot.</li>
+<li><strong>Manual hold</strong>: A manual <code>Time &lt;epoch&gt;</code> blocks automatic NTP and GPS updates. <code>Time 0</code> releases the hold and resumes network time.</li>
+<li><strong>Format</strong>: Addresses are limited to 63 ASCII characters. Commas are accepted as dots, so <code>NtpServer1 192,0,2,123</code> stores <code>192.0.2.123</code>. <code>NtpServerN 0</code> clears a slot and <code>NtpServerN 1</code> restores its default.</li>
+</ul>
+<p>Setting <code>features.USE_NTP: false</code> removes the NTP client while keeping the shared clock, which is useful for an RTC- or GPS-only build.</p>
+<hr />
+<h2 id="time-commands">Time Commands<a class="headerlink" href="#time-commands" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Time</code></td>
+<td><code>Time [0 \| 1 \| 2 \| 3 \| 4 \| &lt;epoch&gt;]</code></td>
+<td>Displays current time, selects a response format (<code>1</code>–<code>4</code>), sets a manual Unix UTC epoch, or releases the manual hold with <code>0</code>.</td>
+</tr>
+<tr>
+<td><code>Timezone</code></td>
+<td><code>Timezone [-13..+14 \| 99 \| +HH:MM]</code></td>
+<td>Sets fixed timezone offset, or <code>99</code> for automatic DST rules.</td>
+</tr>
+<tr>
+<td><code>TimeStd</code></td>
+<td><code>TimeStd &lt;hemisphere&gt;,&lt;week&gt;,&lt;month&gt;,&lt;day&gt;,&lt;hour&gt;,&lt;offset&gt;</code></td>
+<td>Configures Standard Time transition rule.</td>
+</tr>
+<tr>
+<td><code>TimeDst</code></td>
+<td><code>TimeDst &lt;hemisphere&gt;,&lt;week&gt;,&lt;month&gt;,&lt;day&gt;,&lt;hour&gt;,&lt;offset&gt;</code></td>
+<td>Configures Daylight Saving Time (DST) transition rule.</td>
+</tr>
+<tr>
+<td><code>NtpServer</code></td>
+<td><code>NtpServer&lt;1..3&gt; [host \| 0 \| 1]</code></td>
+<td>Queries all three slots or sets one. <code>0</code> clears, <code>1</code> restores the slot default.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="time-formats">Time Formats<a class="headerlink" href="#time-formats" title="Permanent link">&para;</a></h3>
+<p><code>Time 1</code>–<code>Time 4</code> select the persistent response format:</p>
+<ul>
+<li><code>Time 1</code>: ISO-8601 local time (<code>"2026-09-10T22:00:00"</code>).</li>
+<li><code>Time 2</code>: ISO-8601 local time plus Unix <code>Epoch</code> seconds.</li>
+<li><code>Time 3</code>: numeric Unix epoch seconds (<code>1789077600</code>).</li>
+<li><code>Time 4</code>: ISO-8601 local time with millisecond precision (<code>"2026-09-10T22:00:00.123"</code>).</li>
+</ul>
+<p>Setting <code>SetOption52 1</code> appends the timezone offset decoration (for example <code>+02:00</code>) to valid formatted <code>Time</code> responses. <code>Time 0</code> releases a manual hold and returns to automatic time; other values outside <code>1</code>–<code>4</code> are treated as a manual Unix UTC epoch and hold the clock until <code>Time 0</code>.</p>
+<hr />
+<h2 id="automatic-daylight-saving-time-dst">Automatic Daylight Saving Time (DST)<a class="headerlink" href="#automatic-daylight-saving-time-dst" title="Permanent link">&para;</a></h2>
+<p>Setting <code>Timezone 99</code> activates rule-based automatic timezone calculation:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>&gt; Timezone 99
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>{"Timezone":99}
+</span></code></pre></div>
+<p>The transition rules are configured using Tasmota's 6-parameter schema:</p>
+<p>$$\text{Rule} = (\text{Hemisphere}, \text{Week}, \text{Month}, \text{Day}, \text{Hour}, \text{Offset})$$</p>
+<ul>
+<li><strong>Hemisphere</strong>: <code>0</code> = Northern, <code>1</code> = Southern.</li>
+<li><strong>Week</strong>: <code>0</code> = Last week, <code>1</code> = First week, <code>2</code> = Second, <code>3</code> = Third, <code>4</code> = Fourth.</li>
+<li><strong>Month</strong>: <code>1</code> (Jan) to <code>12</code> (Dec).</li>
+<li><strong>Day</strong>: <code>1</code> (Sun) to <code>7</code> (Sat).</li>
+<li><strong>Hour</strong>: Hour of transition (0–23).</li>
+<li><strong>Offset</strong>: Offset in minutes from UTC (e.g. <code>120</code> = UTC+2).</li>
+</ul>
+<p>Example European Summer Time (Central European Time):
+- <code>TimeDst 0,0,3,1,2,120</code> (Last Sunday in March at 02:00 $\rightarrow$ UTC+2)
+- <code>TimeStd 0,0,10,1,3,60</code> (Last Sunday in October at 03:00 $\rightarrow$ UTC+1)</p>
+<hr />
+<h2 id="time-telemetry-status-7-statustim">Time Telemetry (<code>Status 7</code> / <code>StatusTIM</code>)<a class="headerlink" href="#time-telemetry-status-7-statustim" title="Permanent link">&para;</a></h2>
+<p><code>Status 7</code> exposes the timekeeper and its optional sources:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>&gt; Status 7
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>{"StatusTIM":{"UTC":"2026-09-10T20:00:00Z","Local":"2026-09-10T22:00:00","StartDST":"2026-03-29T02:00:00","EndDST":"2026-10-25T03:00:00","Timezone":"+02:00","Sunrise":"06:45","Sunset":"19:50","Source":"ntp","Valid":true}}
+</span></code></pre></div>
+<ul>
+<li><code>Source</code> is the latest accepted sample: <code>none</code>, <code>manual</code>, <code>ntp</code>, <code>rtc</code> or <code>gps</code>. It identifies the origin even after the network drops.</li>
+<li><code>Valid</code> is <code>true</code> once the shared clock has a trustworthy sample. Holdover keeps the civil clock valid after GPS or NTP disappears.</li>
+<li><code>Sunrise</code>/<code>Sunset</code> appear only with valid time and a non-polar date.</li>
+<li>With an RTC enabled, <code>RTC</code> reports <code>Chip</code>, one-based <code>Bus</code>, <code>State</code>, <code>Valid</code> and the last <code>Write</code> result.</li>
+<li>With GPS enabled, <code>GPS</code> reports receiver state, time, fix, position, velocity and error counters.</li>
+<li>With <code>USE_NTP_SERVER</code>, <code>NTPServer</code> reports the listener's <code>State</code>, advertised <code>Quality</code>, <code>Age</code>, and <code>Req</code>/<code>Sent</code>/<code>Drop</code> counters.</li>
+</ul>
+<hr />
+<h2 id="optional-rtc-chips">Optional RTC Chips<a class="headerlink" href="#optional-rtc-chips" title="Permanent link">&para;</a></h2>
+<p>Default-off RTC support bootstraps the shared clock and keeps UTC across power cuts. Selecting any chip enables <code>USE_RTC_CHIPS</code>, <code>USE_TIME</code> and <code>USE_I2C</code> on every platform family; Safeboot excludes them. Configure SCL/SDA and external pull-ups as for any I2C device.</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Chip</th>
+<th>Address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>USE_DS3231</code></td>
+<td>DS3231</td>
+<td><code>0x68</code></td>
+</tr>
+<tr>
+<td><code>USE_DS1307</code></td>
+<td>DS1307</td>
+<td><code>0x68</code></td>
+</tr>
+<tr>
+<td><code>USE_BM8563</code></td>
+<td>BM8563</td>
+<td><code>0x51</code></td>
+</tr>
+<tr>
+<td><code>USE_PCF85063</code></td>
+<td>PCF85063A</td>
+<td><code>0x51</code></td>
+</tr>
+<tr>
+<td><code>USE_PCF85363</code></td>
+<td>PCF85363A</td>
+<td><code>0x51</code></td>
+</tr>
+<tr>
+<td><code>USE_RV3028</code></td>
+<td>RV-3028-C7</td>
+<td><code>0x52</code></td>
+</tr>
+<tr>
+<td><code>USE_RX8010</code></td>
+<td>RX8010SJ</td>
+<td><code>0x32</code></td>
+</tr>
+<tr>
+<td><code>USE_RX8025</code></td>
+<td>RX-8025T</td>
+<td><code>0x32</code></td>
+</tr>
+<tr>
+<td><code>USE_RX8130</code></td>
+<td>RX8130CE</td>
+<td><code>0x32</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>USE_RX8030</code> is accepted as Tasmota's spelling of the same RX8130CE.</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">features</span><span class="p">:</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">USE_DS3231</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nt">USE_NTP</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">   </span><span class="c1"># optional: run from the RTC alone</span>
+</span></code></pre></div>
+<ul>
+<li>An invalid calendar can bootstrap the shared clock, but never replaces valid manual or network time and does not delay NTP.</li>
+<li>Manual <code>Time</code> values are not written to the chip; <code>Time 0</code> releases the hold.</li>
+<li>Every accepted NTP sample checks the RTC; a valid calendar within two seconds is left alone, otherwise a bounded synchronous write updates it. Failed writes are retried on the next NTP sample.</li>
+<li>Accepted GPS time can seed the chip immediately; successful checks wait an hour.</li>
+<li>Builds reject two physical models at the same address. Alarms, temperature, SQW/CLKOUT and user RAM are outside this feature.</li>
+<li>These drivers are compile-tested only; battery retention, oscillator recovery and power interruption during programming need hardware testing.</li>
+</ul>
+<hr />
+<h2 id="optional-gps-ubx">Optional GPS (UBX)<a class="headerlink" href="#optional-gps-ubx" title="Permanent link">&para;</a></h2>
+<p>Default-off <code>USE_GPS</code> selects Time and the shared hardware UART owner. The receiver protocol is <strong>UBX only</strong>; the initial target is the legacy CFG-MSG/CFG-RATE interface used by u-blox 6–8 receivers, and newer generations are not tested. All platform families can select it where their native auxiliary UART supports the chosen pins; Bouffalo BL616/BL618DG cannot.</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">features</span><span class="p">:</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">USE_GPS</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">USE_DS3231</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">   </span><span class="c1"># optional battery-backed UTC retention</span>
+</span></code></pre></div>
+<p>Configure exactly one GPS RX and one GPS TX with <code>GPIO</code>/<code>Template</code>, then restart. The RX variant selects the baud rate:</p>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>GPIO value</th>
+<th>Baud</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPS RX1</td>
+<td>4352</td>
+<td>9600</td>
+</tr>
+<tr>
+<td>GPS RX2</td>
+<td>4353</td>
+<td>19200</td>
+</tr>
+<tr>
+<td>GPS RX3</td>
+<td>4354</td>
+<td>38400</td>
+</tr>
+<tr>
+<td>GPS TX</td>
+<td>4384</td>
+<td>Same as RX</td>
+</tr>
+</tbody>
+</table>
+<p>Both directions are required (8N1), with common ground and compatible signal levels. Configured GPS pads stay reserved from Berry GPIO/serial and other owners.</p>
+<ul>
+<li>Fresh accepted GPS time takes priority over NTP for five seconds after each sample; NTP resumes when GPS expires or its UTC/UART becomes invalid. Holdover remains valid when GPS disappears.</li>
+<li>UTC does not require a position fix; position and velocity require a valid fix.</li>
+<li><code>StatusTIM.GPS</code> reports <code>State</code>, <code>Baud</code>, <code>Time</code> (<code>Valid</code>, <code>AgeMs</code>, <code>AccuracyNs</code>), <code>Fix</code>, <code>Position</code>, <code>Velocity</code> and <code>Errors</code>. Retained numeric fields must be read together with their <code>Valid</code> flag.</li>
+<li>NMEA parsing, PPS input, flash logging/GPX, TCP bridging and <code>Sensor60</code> commands are outside this feature.</li>
+<li>Pure parser checks and native compilation do not establish hardware operation. Startup/configuration, actual baud, reacquisition, GPS/NTP failover and RTC seeding remain untested.</li>
+</ul>
+<hr />
+<h2 id="optional-ntp-server-use_ntp_server">Optional NTP Server (<code>USE_NTP_SERVER</code>)<a class="headerlink" href="#optional-ntp-server-use_ntp_server" title="Permanent link">&para;</a></h2>
+<p><code>USE_NTP_SERVER</code> is a separate default-off feature for personal application builds. It serves the shared clock to LAN clients on IPv4 UDP port 123 while the station is connected or the setup AP is active.</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lan-clock</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nt">inherit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">esp32c2-2m</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nt">features</span><span class="p">:</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="nt">USE_NTP_SERVER</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="nt">USE_DS3231</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">   </span><span class="c1"># optional RTC bootstrap</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">  </span><span class="nt">USE_NTP</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">     </span><span class="c1"># optional offline operation</span>
+</span></code></pre></div>
+<ul>
+<li>Point clients at the device address of the interface they use; replies use the receiving interface and local destination address.</li>
+<li>Only exact 48-byte NTPv3/v4 mode-3 requests are accepted. Replies copy the client's transmit timestamp unchanged into the originate timestamp, including a zero token.</li>
+<li>At most four replies are emitted per second globally. Invalid, excess and failed requests count as drops; request/reply storage is bounded.</li>
+<li>Advertised quality follows the latest accepted source: fresh GPS is stratum 1 (<code>GPS</code>), NTP is upstream stratum plus one, and valid manual/RTC time is an explicit local fallback at stratum 10. A never-synchronized or stale automatic source advertises unsynchronized time (LI 3, stratum 16).</li>
+<li>Loss of GPS/NTP leaves the civil clock valid in holdover, but the server advertises unsynchronized time until a suitable source returns. It never silently promotes holdover to the local fallback policy.</li>
+<li>There is no runtime server command, persisted server switch, DHCP advertisement, authentication, IPv6, broadcast/multicast serving, symmetric-peer mode, or extension/MAC support.</li>
+<li>Selecting the feature proves no hardware timing or interoperability result; station/AP clients, concurrent refresh, source loss/recovery and malformed/flooded traffic remain untested.</li>
+</ul>
+<p><code>StatusTIM.NTPServer</code> reports <code>State</code> (<code>waiting</code>, <code>listening</code> or <code>failed</code>), <code>Quality</code> (<code>none</code>, <code>gps</code>, <code>ntp</code>, <code>local</code> or <code>holdover</code>), <code>Age</code> in seconds, and saturating <code>Req</code>/<code>Sent</code>/<code>Drop</code> counters.</p>
+<hr />
+<h2 id="native-civil-solar-timers">Native Civil &amp; Solar Timers (<code>Timers</code> / <code>Timer1</code>–<code>Timer16</code>)<a class="headerlink" href="#native-civil-solar-timers" title="Permanent link">&para;</a></h2>
+<p>Normal application builds with the Time service provide <strong>16 persistent civil timers</strong> that trigger relay outputs or Berry scripts based on clock time or solar events (sunrise/sunset):</p>
+<h3 id="timer-global-location-commands">Timer Global &amp; Location Commands<a class="headerlink" href="#timer-global-location-commands" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Timers</code></td>
+<td><code>Timers [ON\|OFF\|TOGGLE]</code></td>
+<td>Queries or toggles global timer scheduling.</td>
+</tr>
+<tr>
+<td><code>Timer&lt;n&gt;</code></td>
+<td><code>Timer&lt;n&gt; [json \| 0 \| &lt;src&gt;]</code></td>
+<td>Sets, queries, clears (<code>0</code>), or copies from <code>&lt;src&gt;</code> (1..16) the configuration of timer <code>&lt;n&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>Latitude</code></td>
+<td><code>Latitude [degrees]</code></td>
+<td>Sets geographic latitude (-90.000000 to +90.000000) for solar events.</td>
+</tr>
+<tr>
+<td><code>Longitude</code></td>
+<td><code>Longitude [degrees]</code></td>
+<td>Sets geographic longitude (-180.000000 to +180.000000) for solar events.</td>
+</tr>
+<tr>
+<td><code>Sunrise</code></td>
+<td><code>Sunrise [0..3]</code></td>
+<td>Sets twilight definition for solar calculations: <code>0</code> = Official (0°50'), <code>1</code> = Civil (6°), <code>2</code> = Nautical (12°), <code>3</code> = Astronomical (18°).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="timer-configuration-fields">Timer Configuration Fields<a class="headerlink" href="#timer-configuration-fields" title="Permanent link">&para;</a></h3>
+<p>A timer record is set using partial or complete JSON containing standard Tasmota fields:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>&gt; Timer1 {"Enable":1,"Mode":0,"Time":"07:00","Window":0,"Days":"1111100","Repeat":1,"Output":1,"Action":1}
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>{"Timer1":{"Enable":1,"Mode":0,"Time":"07:00","Window":0,"Days":"1111100","Repeat":1,"Output":1,"Action":1}}
+</span></code></pre></div>
+<ul>
+<li><strong><code>Enable</code></strong>: <code>1</code> (active) or <code>0</code> (inactive).</li>
+<li><strong><code>Mode</code></strong>:</li>
+<li><code>0</code>: Clock mode (triggers at the exact local <code>Time</code> specified as <code>HH:MM</code>).</li>
+<li><code>1</code>: Sunrise mode (<code>Time</code> is a signed offset <code>-HH:MM</code> or <code>+HH:MM</code> up to 11:59 from sunrise).</li>
+<li><code>2</code>: Sunset mode (<code>Time</code> is a signed offset from sunset).</li>
+<li><strong><code>Window</code></strong>: Random window in minutes (0–15) to vary trigger time.</li>
+<li><strong><code>Days</code></strong>: 7-character Sunday-first weekday mask (e.g. <code>"1111100"</code> for Sun–Thu, <code>"0111110"</code> for Mon–Fri). <code>0</code> or <code>-</code> disables a day; any other character enables it.</li>
+<li><strong><code>Repeat</code></strong>: <code>1</code> to run indefinitely, <code>0</code> for a one-shot timer (disables itself after running).</li>
+<li><strong><code>Output</code></strong>: Target power endpoint number (1-based).</li>
+<li><strong><code>Action</code></strong>:</li>
+<li><code>0</code>: Turn output <strong>OFF</strong>.</li>
+<li><code>1</code>: Turn output <strong>ON</strong>.</li>
+<li><code>2</code>: <strong>TOGGLE</strong> output.</li>
+<li><code>3</code>: <strong>Rule / Berry Event</strong>. In Newmota, Action 3 does not blink an output; instead, it dispatches an event to the registered Berry timer handler.</li>
+</ul>
+<h3 id="berry-timer-callback-handler">Berry Timer Callback Handler<a class="headerlink" href="#berry-timer-callback-handler" title="Permanent link">&para;</a></h3>
+<p>When Action 3 fires, Newmota queues an event for a script callback registered in <code>/autoexec.be</code>:</p>
+<div class="language-berry highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kd">def</span><span class="w"> </span><span class="nf">on_timer</span><span class="p">(</span><span class="n">timer_id</span><span class="p">,</span><span class="w"> </span><span class="n">output</span><span class="p">,</span><span class="w"> </span><span class="n">action</span><span class="p">,</span><span class="w"> </span><span class="n">scheduled_epoch</span><span class="p">)</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="nb">print</span><span class="p">(</span><span class="n">string</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="s2">"Timer %d triggered for output %d at epoch %d"</span><span class="p">,</span><span class="w"> </span><span class="n">timer_id</span><span class="p">,</span><span class="w"> </span><span class="n">output</span><span class="p">,</span><span class="w"> </span><span class="n">scheduled_epoch</span><span class="p">))</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="k">end</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">newmota</span><span class="p">.</span><span class="nf">add_timer_handler</span><span class="p">(</span><span class="n">on_timer</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Without a registered handler, the event is quietly consumed. Rules and blink fallbacks are not implemented. Scheduling starts as soon as time is synchronized via NTP — there is no 60-second post-restart guard as in Tasmota, and missed minutes are never replayed.</p>
+<h3 id="editing-timers-in-the-browser">Editing timers in the browser<a class="headerlink" href="#editing-timers-in-the-browser" title="Permanent link">&para;</a></h3>
+<p>The web UI's <strong>Configuration → Timer</strong> page lists all 16 timers with the global <code>Timers</code> switch and edits one at a time (mode, ± sunrise/sunset offset, random window, weekdays, repeat, output, action). It shows a warning while the device clock is unsynchronized, because timers only fire with valid time. See <a href="../web-interface/">Web Interface</a>.</p>
+<h2 id="ethernet-and-esp32-p4-wi-fi">Ethernet and ESP32-P4 Wi-Fi<a class="headerlink" href="#ethernet-and-esp32-p4-wi-fi" title="Permanent link">&para;</a></h2>
+<p>Optional <code>USE_ETHERNET</code> adds wired Ethernet on ESP-IDF. RMII requires an ESP32, ESP32-P4 or ESP32-S31; W5500, DM9051 and KSZ8851 controllers use SPI. Configure the Ethernet pins in the device template, then use <code>Ethernet</code>, <code>EthType</code>, <code>EthAddress</code> and <code>EthClockMode</code> to configure the interface. <code>EthIPAddress</code>, <code>EthGateway</code>, <code>EthSubnetmask</code> and <code>EthDNSServer1</code> / <code>EthDNSServer2</code> configure IPv4; <code>EthIPAddress 0.0.0.0</code> returns to DHCP. Changes to the PHY settings restart the device. Ethernet hardware testing is open, and Safeboot does not provide Ethernet.</p>
+<p>When Ethernet has an address, the setup and recovery access point stays off; it returns if the wired link drops. A Wi-Fi credential test started from the access point keeps it open until the test ends.</p>
+<p>The ESP32-P4 has no radio of its own. Its ESP-Hosted configuration uses an ESP32-C6 companion over SDIO. <code>Hosted</code> reports the companion state; <code>HostedOta</code> downloads and installs a companion image over plain HTTP, while <code>HostedLoad</code> installs one already on the filesystem. A successful update restarts the device. Hardware testing remains open.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.path", "navigation.top", "navigation.tracking", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy", "content.code.select", "content.code.annotate", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

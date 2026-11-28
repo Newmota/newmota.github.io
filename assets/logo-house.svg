@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <style>
+    .s { fill: none; stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; }
+    .c1 { stroke: #0a4f9c; } .c2 { stroke: #0077b6; } .c3 { stroke: #0096c7; } .c4 { stroke: #2ec4b6; } .c5 { stroke: #6fd3a5; }
+    @media (prefers-color-scheme: dark) {
+      .c1 { stroke: #3b82d6; } .c2 { stroke: #1ea0dc; } .c3 { stroke: #2cc0e0; } .c4 { stroke: #3fd6c4; } .c5 { stroke: #8be8bd; }
+    }
+  </style>
+  <path class="s c1" d="M32 50L64 18"/>
+  <path class="s c2" d="M64 18L96 50"/>
+  <path class="s c3" d="M32 112V50"/>
+  <path class="s c4" d="M32 50L96 112"/>
+  <path class="s c5" d="M96 112V50"/>
+</svg>
